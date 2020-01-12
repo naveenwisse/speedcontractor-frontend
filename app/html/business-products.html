@@ -1,0 +1,36 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button ng-if="isUser" class="md-primary pp-margin-none" ui-sref="business.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Products</span>
+    <md-button ng-if="isUser" class="md-primary pp-margin-none" ng-click="openAddProduct()">
+        <span>Add Product</span>
+    </md-button>
+</div>
+<md-card ng-if="user.products.length">
+    <md-card-content class="profile-business-card">
+        <md-list>
+            <md-list-item class="pp-margin-none" ng-repeat="product in user.products track by product._id">
+                <div class="product-img-container">
+                    <img class="product-img" ng-src="{{ product.image.path }}" alt="{{product.name}}">
+                </div>
+                <div class="pp-multi-line pp-padding pp-width-full">
+                    {{ product.name }} {{product.rating | number:1}}/10<br>
+                    <p ng-text-truncate="product.description" ng-tt-chars-threshold="40">
+                    </p>
+                </div>
+                <md-button ng-if="product.reviews.length" class="md-primary pp-margin-none" ng-click="openViewProductReviews($event, product)">
+                    Reviews
+                </md-button>
+                <md-button class="md-warn pp-margin-none" ng-click="removeProduct($event, product)">
+                    Remove
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>
+<md-card ng-if="!user.products.length">
+    <md-card-content>
+        <span class="md-subhead">No products yet.</span>
+    </md-card-content>
+</md-card>

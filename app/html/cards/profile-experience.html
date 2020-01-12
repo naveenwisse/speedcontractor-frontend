@@ -1,0 +1,27 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Experience</span>
+        <md-button ng-if="isUser" ng-click="experienceDialog($event)" class="md-primary card-action-button" aria-label="Add">
+            <span>Add</span>
+        </md-button>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="profile-list-card">
+    <div ng-if="!user.positions.length" class="text-center pp-padding text-small">No experience information has been added</div>
+    <md-list ng-if="user.positions.length">
+        <md-list-item ng-repeat="position in user.positions | orderBy:'-from' track by $index">
+            <div flex class="pp-multi-line pp-width-full pp-padding-y">
+                <strong>{{position.title}}</strong> <br>
+                <small>
+                    {{position.employer}} <br>
+                    {{position.from}} - {{position.to}}
+                </small>
+            </div>
+            <md-button ng-if="isUser" class="md-icon-button md-secondary" aria-label="Delete" ng-click="removeExperience($event, position)">
+                <md-icon class="material-icons">delete</md-icon>
+                <md-tooltip md-direction="left">Delete</md-tooltip>
+            </md-button>
+        </md-list-item>
+    </md-list>
+</md-card-content>

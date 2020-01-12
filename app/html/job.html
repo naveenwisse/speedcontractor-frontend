@@ -1,0 +1,40 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button class="md-primary pp-margin-none" ui-sref="business.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Job</span>
+</div>
+<md-card ng-if="jobCtrl.resource">
+    <span style="margin-left: 3%; margin-right: 3%;" class="md-display-0">{{ jobCtrl.resource.business.companyName }} - {{jobCtrl.resource.title}}</span>
+    <md-card-content class="profile-business-card">
+        <md-list>
+            <md-list-item class="pp-margin-none">
+                <div class="pp-multi-line pp-padding pp-width-full">
+                    <p>
+                        From {{jobCtrl.resource.startTime | date : 'MMM d, y h:mm a'}}, to {{jobCtrl.resource.endTime | date : 'MMM d, y h:mm a'}}<br>
+                        Schedule: {{jobCtrl.resource.startTime | date : 'h:mm a'}}-{{jobCtrl.resource.endTime | date : 'h:mm a'}} <br>
+                        Location: {{jobCtrl.resource.formattedAddress}}
+                    </p>
+                </div>
+            </md-list-item>
+        </md-list>
+        <md-list>
+            <h3 style="margin-right: 5%; margin-left:15px;">Invitation Requests</h3>
+            <md-list-item data-ng-repeat="req in jobCtrl.invitations">
+                {{req.name}}
+                <md-button class="md-primary" data-ng-click="jobCtrl.goToProfile(req)">
+                    View Profile
+                </md-button>
+                <md-button ng-if="!jobCtrl.isSent(req)" class="md-primary" data-ng-click="jobCtrl.sendInvitation(req)">
+                    Invite
+                </md-button>
+                <span ng-if="jobCtrl.isSent(req)">Invitation Sent</span>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>
+<md-card ng-if="!jobCtrl.resource">
+    <md-card-content>
+        <span class="md-subhead">No jobs to show.</span>
+    </md-card-content>
+</md-card>

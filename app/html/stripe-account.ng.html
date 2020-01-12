@@ -1,0 +1,38 @@
+<div ng-if="$ctrl.account">
+    <!-- <pre>{{ $ctrl.account | json }}</pre> -->
+    <div><i style="vertical-align: middle" class="material-icons pp-primary">check</i> Stripe account connected <a class="stripe-connect" ng-click="$ctrl.disconnectAccount()">
+        <span>Disconnect with Stripe</span>
+    </a></div>
+    
+    <ng-transclude></ng-transclude>
+</div>
+<div ng-switch="$ctrl.status">
+    <div ng-switch-when="UNAUTHORIZED">
+        <!-- Shouldn't get here. Unauthorized account requests
+        will sign a user out for trying to be a hacky hacker -->
+    </div>
+    <div ng-switch-when="UNKNOWN_ERROR">
+        <!-- TODO: handle -->
+    </div>
+    <div ng-switch-when="ACCOUNT_NOT_FOUND">
+        <div class="layout-space-between" layout="row">
+            <div><i class="material-icons md-warn">money_off</i></div>
+            <div flex>
+                <div ng-show="$ctrl.accountType == 'User'">
+                    Looks like you haven't set up a Stripe account.
+                    Connect a Stripe account so we can help <strong ng-bind="' get you paid '"></strong> for your time.
+                </div>
+                <div ng-show="$ctrl.accountType == 'Business'">
+                    Looks like you haven't set up a Stripe account.
+                    Connect a Stripe account so we can help you <strong ng-bind="' find skilled individuals '"></strong>
+                    and pay them for their time.
+                </div>
+                <p>
+                    <a class="stripe-connect" ng-click="$ctrl.connectAccount()">
+                        <span>Connect with Stripe</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

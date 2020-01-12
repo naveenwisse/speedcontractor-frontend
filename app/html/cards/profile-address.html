@@ -1,0 +1,23 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <div>
+            <span class="md-subtitle" ng-class="{'md-warn': !user.address1}">Address</span>
+        </div>
+        <md-button ng-if="isUser" class="md-primary card-action-button" ng-click="editAddressDialog($event)" aria-label="Edit">
+            <span>Edit</span>
+        </md-button>
+    </div>
+    <md-divider></md-divider>
+</div>
+<md-card-content class="profile-list-card">
+    <div ng-if="!user.address1" class="md-warn text-center pp-padding text-small">Your address is required to be eligable for jobs</div>
+    <md-list ng-if="user.address1">
+        <md-list-item>
+            <div flex class="pp-multi-line pp-width-full">
+                <div>{{ user.address1 }}</div>
+                <div ng-if="user.address2">{{ user.address2 }}</div>
+                <div>{{ user.city }} {{ user.regionId }} {{ user.country }} {{ user.postalCode }}</div>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

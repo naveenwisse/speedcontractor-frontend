@@ -1,0 +1,27 @@
+<div
+  md-droppable
+  on-drop="vm.handleEventDrop(dropData.event, day.date)"
+  class="cal-month-day {{ day.cssClass }}"
+  ng-class="{
+            'cal-day-outmonth': !day.inMonth,
+            'cal-day-inmonth': day.inMonth,
+            'cal-day-weekend': day.isWeekend,
+            'cal-day-past': day.isPast,
+            'cal-day-today': day.isToday,
+            'cal-day-future': day.isFuture
+          }">
+
+  <span
+    style="float:right;"
+    data-cal-date
+    ng-click="vm.calendarCtrl.drillDown(day.date)"
+    ng-bind="day.label">
+  </span>
+
+    <small ng-show="day.badgeTotal > 0">{{ day.badgeTotal }}</small>
+
+  <div class="cal-day-tick" ng-show="dayIndex === vm.openDayIndex && vm.view[vm.openDayIndex].events.length">
+    <i class="material-icons">keyboard_arrow_up</i>
+  </div>
+
+</div>

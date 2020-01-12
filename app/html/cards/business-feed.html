@@ -1,0 +1,112 @@
+<div ng-if="item.modelType === 'EVENT'">
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{item.title}}</span>
+            <span class="md-subhead">{{ item.startsAt | date : 'MMM d, y h:mm a'}} - {{ item.endsAt | date : 'MMM d, y h:mm a'}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <p>{{ item.description }}</p>
+        <p>
+            <strong>Location:</strong>
+            <br>{{item.formattedAddress}}
+        </p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end" ng-if="isUser">
+        <md-button class="md-primary" ng-class="(!item.allResourcesFilled) ? 'red-string' : 'another-string'" ui-sref="business.event({eventId: item._id})">
+            Manage Event
+            <md-tooltip ng-if="!item.allResourcesFilled">
+                Not all resources are filled
+            </md-tooltip>
+        </md-button>
+    </md-card-actions>
+</div>
+<div ng-if="item.modelType === 'RESOURCE'">
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{item.title}}</span>
+            <span class="md-subhead">{{ item.startTime | date : 'MMM d, y h:mm a'}} - {{ !item.requiresFinish ? item.endTime : null | date : 'MMM d, y h:mm a'}}</span>
+            <span ng-if="item.cutOff"><small class="md-warn">The deadline has passed to delete this event</small></span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <p>
+            <strong>Compensation:</strong> {{ item.compensation | currency:"$":2 }} <br>
+            <strong>Attire:</strong> {{ item.attire }} <br>
+            <strong>Business provided attire:</strong> {{ item.busAttire }} <br>
+            <strong>Additional info:</strong> {{ item.additional }} <br>
+            <strong>Location:</strong> <br>
+            {{ item.formattedAddress }}
+        </p>
+        <p class="pp-pill pp-margin-none"
+            data-ng-repeat="res in item.resources"
+            ng-class="{
+                'pp-pill--yellow': !res.accepted&&!res.unfilled,
+                'pp-pill--green': res.accepted,
+                'pp-pill--red': res.unfilled
+            }">
+            <span ng-if="!res.accepted && !res.unfilled">Pending acceptance: {{ res.type }} <i class="material-icons">indeterminate_check_box</i></span>
+            <span ng-if="res.accepted">Accepted: {{ res.type }} <i class="material-icons">check_box</i></span>
+            <span ng-if="res.unfilled">Unfilled resource: {{ res.type }} <i class="material-icons">check_box_outline_blank</i></span>
+            <br>
+            <a ng-if="resource.filled" class="pp-link pp-margin-left" href="{{ res.filled.slug }}">{{ res.filled.name }}</a>
+        </p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end" ng-if="isUser">
+        <md-button class="md-warn" ng-if="item.invitationRequest.length > 0" ng-click="goToJob(item)">Invitation Request</md-button>
+        <md-button class="md-warn" ng-if="!item.cutOff" ng-click="deleteResource($event, item)">Cancel</md-button>
+        <md-button class="md-primary" ng-click="editResource($event, item)">Edit Resource</md-button>
+        <md-button ng-if="item.requiresFinish" class="md-primary" ng-click="finishResource($event, item)">Finish</md-button>
+    </md-card-actions>
+</div>
+<div ng-if="item.modelType === 'TASTING'">
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{item.title}}</span>
+            <span class="md-subhead">{{ item.startTime | date : 'MMM d, y h:mm a'}} - {{ item.endTime | date : 'MMM d, y h:mm a'}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <p>{{ item.description }}</p>
+        <span class="pp-bold">Venue:</span>
+        <md-card-header class="pp-margin-bottom">
+            <md-card-avatar>
+                <img class="feed-avatar md-user-avatar" ng-src="{{item.businessVenue.image}}">
+            </md-card-avatar>
+            <md-card-header-text>
+                <a class="pp-link" ng-href="{{ item.businessVenue.slug }}">{{item.businessVenue.companyName}}</a>
+                <span class="md-subhead">{{ item.businessVenue.formattedAddress}}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <p class="pp-pill pp-margin-none" ng-class="{'pp-pill--yellow':!item.accepted&&!item.declined,'pp-pill--green':item.accepted,'pp-pill--red':item.declined}">
+            <span ng-if="!item.accepted && !item.declined">Pending acceptance <i class="material-icons">indeterminate_check_box</i></span>
+            <span ng-if="item.accepted">Accepted <i class="material-icons">check_box</i></span>
+            <span ng-if="item.declined">Declined <i class="material-icons">check_box_outline_blank</i></span>
+        </p>
+    </md-card-content>
+    <md-card-content ng-if="isUser && item.reschedule.length">
+        <md-button class="md-warn md-raised pp-width-full pp-margin-none" ng-click="acceptReschedule($event, item)">Reschedule requested</md-button>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end" ng-if="isUser">
+        <md-button class="pp-primary" ui-sref="business.tasting({tastingId: item._id})">Manage Tasting</md-button>
+    </md-card-actions>
+</div>
+<div ng-if="item.modelType === 'COMPETITION'">
+    <md-card-header>
+        <md-card-header-text layout-align="start start">
+            <div ng-if="item.ended && !item.finalized" class="pp-chip-warn"><i class="pp-chip-icon material-icons">error_outline</i> Not Finalized</div>
+            <span class="md-title">{{item.title}}</span>
+            <span class="md-subhead">{{ item.startsAt | date : 'MMM d, y h:mm a'}} - {{ item.endsAt | date : 'MMM d, y h:mm a'}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <p>{{ item.description }}</p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end" ng-if="isUser">
+        <md-button class="pp-primary" ui-sref="business.competition({competitionId: item._id})">Manage competition</md-button>
+    </md-card-actions>
+</div>

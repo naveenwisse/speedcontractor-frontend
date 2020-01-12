@@ -1,0 +1,26 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Businesses</span>
+        <md-button
+            ng-if="isUser"
+            ng-disabled="user.businesses.length > 4"
+            ng-click="createBusinessDialog($event)"
+            class="md-primary card-action-button"
+            ng-click="addEducationDialog($event)"
+            >
+            <span>Create</span>
+        </md-button>
+    </div>
+    <md-divider ng-if="user.businesses.length"></md-divider>
+</div>
+<md-card-content class="profile-business-card" ng-if="user.businesses.length">
+    <md-list>
+        <md-list-item ng-href="{{ business.slug }}" ng-repeat="business in user.businesses track by business._id">
+            <img class="profile-businesses-thumb" ng-src="{{ business.user.image }}">
+            <div class="pp-multi-line pp-width-full">
+                <div class="pp-primary pp-bold">{{business.companyName}}</div>
+                <small ng-if="business.pending">pending</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

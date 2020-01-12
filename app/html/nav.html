@@ -1,0 +1,139 @@
+<nav class="main-nav">
+    <div class="mobile-nav-menu" hide-gt-xs>
+        <md-menu md-offset="0 74">
+            <md-button class="md-icon-button md-accent mobile-nav-btn" aria-label="Main Menu" ng-click="$mdMenu.open($event)">
+                <md-icon class="material-icons mobile-nav-menu-icon">menu</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <!-- Register -->
+                <md-menu-item ng-if="!$auth.authenticated">
+                    <md-button ui-sref="register" aria-label="Sign up">
+                        <md-icon class="material-icons">person_add</md-icon>
+                        <span md-menu-align-target>Sign up</span>
+                    </md-button>
+                </md-menu-item>
+                <!-- Login -->
+                <md-menu-item ng-if="!$auth.authenticated">
+                    <md-button ui-sref="login" aria-label="Log in">
+                        <md-icon class="material-icons">lock</md-icon>
+                        <span md-menu-align-target>Log in</span>
+                    </md-button>
+                </md-menu-item>
+                <!-- Calendar -->
+                <md-menu-item ng-if="$auth.authenticated">
+                    <md-button ui-sref="calendar" aria-label="Calendar">
+                        <md-icon class="material-icons">event</md-icon>
+                        <span md-menu-align-target>Calendar</span>
+                    </md-button>
+                </md-menu-item>
+                <!-- Dashboard (profile) -->
+                <md-menu-item ng-if="$auth.authenticated">
+                    <!-- We have a route handler that will redirect visits to /home to the correct profile url -->
+                    <md-button ui-sref="home" aria-label="Dashboard">
+                        <md-icon class="material-icons">dashboard</md-icon>
+                        <span md-menu-align-target>Dash</span>
+                    </md-button>
+                </md-menu-item>
+                <!-- Logout -->
+                <md-menu-item ng-if="$auth.authenticated">
+                    <md-button ng-click="$auth.logoutConfirm()" aria-label="Log out">
+                        <md-icon class="material-icons">exit_to_app</md-icon>
+                        <span md-menu-align-target>Log out</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <div hide-xs layout="row" layout-align="end">
+        <md-button
+            ui-sref="calendar"
+            ng-if="$auth.authenticated"
+            class="main-nav-btn md-cornered"
+            aria-label="Calendar"
+            md-no-ink
+            >
+            Calendar
+        </md-button>
+        <md-button
+            ui-sref="register"
+            ng-if="!$auth.authenticated"
+            class="main-nav-btn md-cornered"
+            aria-label="Sign up"
+            md-no-ink
+            >
+            Sign up
+        </md-button>
+    </div>
+    <md-button
+        ui-sref="home"
+        class="main-nav-btn--logo main-nav-btn"
+        aria-label="Home"
+        md-no-ink
+        >
+        <md-icon class="main-nav-logo" md-svg-src="i/favicon.svg"></md-icon>
+        <md-tooltip md-direction="bottom">Dash</md-tooltip>
+    </md-button>
+    <div hide-xs layout="row">
+        <md-button
+            ui-sref="login"
+            ng-if="!$auth.authenticated"
+            class="login-nav main-nav-btn md-cornered"
+            aria-label="Log in"
+            md-no-ink
+            >
+            Log in
+        </md-button>
+        <md-button
+            ng-if="$auth.authenticated"
+            class="logout-nav main-nav-btn md-cornered"
+            ng-click="$auth.logoutConfirm()"
+            aria-label="Log out"
+            md-no-ink
+            >
+            Log out
+        </md-button>
+    </div>
+    <pp-personas class="persona" ng-if="$user.personas.length>=2">
+        <md-menu md-offset="0 65">
+            <md-button
+                class="persona-btn"
+                aria-label="Persona Menu"
+                ng-click="$mdMenu.open($event)"
+                md-no-ink
+                >
+                <img class="persona-img" ng-src="{{ $user.persona.image }}">
+                <md-tooltip md-direction="left">
+                    Change Persona
+                </md-tooltip>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item class="persona-menu-item" ng-repeat="item in $user.personas track by item._id">
+                    <md-button
+                        class="persona-item"
+                        ng-click="setPersona(item)"
+                        aria-label="Set Persona"
+                        ng-disabled="item._id == $user.persona._id"
+                        >
+                        <div>
+                            <img class="persona-img" ng-src="{{ item.image }}">
+                            <span class="persona-text">{{ item.name }}</span>
+                            <i class="material-icons" ng-show="item._id == $user.persona._id">check</i>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item class="persona-menu-item" ng-show="isAdmin">
+                    <md-button
+                        class="persona-item"
+                        aria-label="Set Persona"
+                        ui-sref="adminusers"
+                        >
+                        <div>
+                            <img class="persona-img" ng-src="{{ item.image }}">
+                            <span class="persona-text">Admin</span>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </pp-personas>
+</nav>

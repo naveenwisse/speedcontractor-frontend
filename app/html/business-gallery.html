@@ -1,0 +1,62 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button class="md-primary pp-margin-none" ui-sref="business.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Gallery</span>
+</div>
+
+<md-card>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="tabs.myTabIndex">
+        <md-tab md-on-select="changeCategory('facility')">
+            <md-tab-label ><span>{{tabsProfile.categoryLabels['facility']}}</span></md-tab-label>
+            <md-tab-body>
+                <md-content class="md-padding">
+                    <div ng-include="'cards/business-profile-gallery-item.html'"></div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-on-select="changeCategory('promotional')">
+            <md-tab-label ><span>{{tabsProfile.categoryLabels['promotional']}}</span></md-tab-label>
+            <md-tab-body>
+                <md-content class="md-padding">
+                    <div ng-include="'cards/business-profile-gallery-item.html'"></div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-on-select="changeCategory('amentities')">
+            <md-tab-label ><span>{{tabsProfile.categoryLabels['amentities']}}</span></md-tab-label>
+            <md-tab-body>
+                <md-content class="md-padding">
+                    <div ng-include="'cards/business-profile-gallery-item.html'"></div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-on-select="changeCategory('benefits')">
+            <md-tab-label ><span>{{tabsProfile.categoryLabels['benefits']}}</span></md-tab-label>
+            <md-tab-body>
+                <md-content class="md-padding">
+                    <div ng-include="'cards/business-profile-gallery-item.html'"></div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-on-select="changeCategory('foodlist')" md-active="tabsProfile.myCategory === 'foodlist' || tabsProfile.myCategory === 'drinklist' || tabsProfile.myCategory === 'winelist'">
+            <md-tab-label>
+                <md-menu md-position-mode="target-left target" md-offset="0 45">
+                    <div ng-click="$mdMenu.open($event)">
+                        <span>Menus</span>
+                    </div>
+                    <md-menu-content>
+                        <md-menu-item><md-button ng-click="changeCategory('foodlist')">{{tabsProfile.categoryLabels['foodlist']}}</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="changeCategory('drinklist')">{{tabsProfile.categoryLabels['drinklist']}}</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="changeCategory('winelist')">{{tabsProfile.categoryLabels['winelist']}}</md-button></md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-tab-label>
+            <md-tab-body>
+                <md-content class="md-padding">
+                    <div ng-include="'cards/business-profile-gallery-item.html'"></div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</md-card>

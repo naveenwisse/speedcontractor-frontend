@@ -1,0 +1,42 @@
+<md-dialog class="pp-dialog--rate-user" aria-label="{{businessName}} - Reviews">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">
+                        {{businessName}} - Reviews
+                    </span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <div layout="row" layout-align="space-around" ng-if="loading">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <div ng-if="!loading">
+            <div ng-if="loadError">{{loadErrorText}}</div>
+            <md-virtual-repeat-container class="vertical-container">
+                <div class="" md-virtual-repeat="review in reviews">
+                    <div flex>
+                        <div class="pp-primary pp-bold">{{ review.resource.title }}</div>
+                    </div>
+                    <div flex>
+                        <p>Rating - Money: {{review.rating_money}}, Professional: {{review.rating_prof}}, OverAll: {{review.rating_over}}</p>
+                        <p>{{review.review}}</p>
+                    </div>
+                    <md-divider ng-if="!($index === reviews.length -1)"></md-divider>
+                </div>
+            </md-virtual-repeat-container>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" ng-if="!loading">
+        <md-button ng-click="cancel()" class="md-secondary">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

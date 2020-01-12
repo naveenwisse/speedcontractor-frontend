@@ -1,0 +1,19 @@
+<pp-menu-admin></pp-menu-admin>
+<div flex="50" flex-offset="25" style="text-align:center">
+	<md-button data-ui-sref="adminpositioncreate">Add Position</md-button>
+</div>
+<div layout="row" layout-wrap flex="66" layout-align="center center">
+	<md-list>
+	  <md-list-item class="md-2-line" ng-repeat="position in admin.positions">
+	    <div class="md-list-item-text" layout="row" layout-wrap>
+	      <div flex="66">
+	      	<h3>{{position.name}}</h3>
+	      </div>
+	      <div flex="33">
+	      	<md-button class="md-warn" ui-sref="adminpositionedit({id: position._id})">View/Edit</md-button>
+	      	<md-button class="md-warn" ng-click="admin.switch(position)">{{(position.status == 'active') ? 'Hide' : 'Show'}}</md-button>
+	      </div>
+	    </div>
+	  </md-list-item>
+	</md-list>
+</div>

@@ -1,0 +1,22 @@
+<form name="inviteForm" ng-submit="sendInvite(inviteForm, inviteEmail)" novalidate>
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <span class="md-subtitle">Send invite</span>
+            <md-button ng-hide="showInviteMessage" type="submit" class="md-primary card-action-button">
+                <span>Send</span>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-card-content class="profile-list-card">
+        <!-- Email -->
+        <md-input-container ng-hide="showInviteMessage" class="md-block invite-input">
+            <label>Recipient Email</label>
+            <input class="md-primary" ng-model="inviteEmail" type="email" maxlength="75" name="email"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required />
+            <div ng-if="inviteForm.$submitted" ng-messages="inviteForm.email.$error">
+                <div ng-message="required">Recipient email address is required.</div>
+            </div>
+        </md-input-container>
+        <span class="pp-block invite-input" ng-show="showInviteMessage"><i class="material-icons" ng-style="inviteIconColor">{{inviteIcon}}</i> <strong>{{inviteMessage}}</strong></span>
+    </md-card-content>
+</form>

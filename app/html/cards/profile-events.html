@@ -1,0 +1,20 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Your upcoming events</span>
+        <span class="pp-badge dark round">{{user.resources.length}}</span>
+    </div>
+    <md-divider></md-divider>
+</div>
+<md-card-content class="profile-business-card">
+    <md-list>
+        <md-list-item ng-href="{{ resource.business.slug }}/event/{{ resource.event._id }}" ng-repeat="resource in user.events_resource track by $index">
+            <div class="pp-multi-line pp-padding-y">
+                <div class="pp-primary pp-bold">{{ resource.title }} - {{ resource.event.title}}</div>
+                <small class="pp-bold">{{resource.business.companyName}}</small> <br>
+                <small>Start: {{resource.startTime | date : 'MMM d, y h:mm a'}}</small> <br>
+                <small>End: {{resource.endTime | date : 'MMM d, y h:mm a'}}</small> <br>
+                <small>{{resource.formattedAddress}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

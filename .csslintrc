@@ -1,0 +1,13 @@
+{
+    "adjoining-classes" : false,
+    "import" : true,
+    "box-model" : false,
+    "compatible-vendor-prefixes" : false,
+    "known-properties" : false,
+    "outline-none" : false,
+    "important" : false,
+    "overqualified-elements": false,
+    "unique-headings" : false,
+    "qualified-headings" : false,
+    "vendor-prefix": false
+}

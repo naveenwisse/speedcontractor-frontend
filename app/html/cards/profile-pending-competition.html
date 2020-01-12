@@ -1,0 +1,25 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle md-warn">Pending competitions</span>
+        <span class="pp-badge dark round">{{user.pendingCompetitions.length}}</span>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="profile-business-card">
+    <md-list>
+        <md-list-item
+            ng-repeat="comp in user.pendingCompetitions track by $index"
+            ng-click="acceptCompetitionDialog($event, comp)"
+            >
+            <div class="pp-multi-line pp-width-full pp-padding-y">
+                <span class="pp-bold">{{ comp.competition.title }}</span> - <small>{{comp.business.companyName}}</small>
+                <br>
+                <small>Start: {{comp.competition.startsAt | date : 'MMM d, y h:mm a'}}</small>
+                <br>
+                <small>End: {{comp.competition.endsAt | date : 'MMM d, y h:mm a'}}</small>
+                <br>
+                <small>{{comp.business.formattedAddress}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

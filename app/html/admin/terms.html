@@ -1,0 +1,19 @@
+<pp-menu-admin></pp-menu-admin>
+<div flex="50" flex-offset="25" style="text-align:center">
+	<md-button data-ui-sref="admintermcreate">Add Term</md-button>
+</div>
+<div layout="row" layout-wrap flex="99" layout-align="center center">
+	<md-list>
+	  <md-list-item class="md-2-line" ng-repeat="term in admin.terms">
+	    <div class="md-list-item-text" layout="row" layout-wrap>
+	      <div flex="66">
+	      	<h3>{{term.sanitization}} - {{term.category}}</h3>
+	      </div>
+	      <div flex="33">
+	      	<md-button class="md-warn" ui-sref="admintermedit({id: term._id})">View/Edit</md-button>
+	      	<md-button class="md-warn" data-ng-click="admin.remove({id: term._id, term: term.term })">Remove</md-button>
+	      </div>
+	    </div>
+	  </md-list-item>
+	</md-list>
+</div>

@@ -1,0 +1,41 @@
+{
+  "name": "pp-client",
+  "description": "Speed Contractor Client Site",
+  "author": "Jordan Schoen",
+  "repository": "https://bitbucket.org/speedcontractor/pp-client",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.6.6",
+    "angular-route": "1.6.6",
+    "angular-loader": "1.6.6",
+    "angular-animate": "1.6.6",
+    "angular-sanitize": "1.6.6",
+    "angular-messages": "1.6.6",
+    "angular-i18n": "1.6.6",
+    "angular-aria": "1.6.6",
+    "html5shiv": "3.7.3",
+    "respond": "1.4.2",
+    "angular-local-storage": "0.7.1",
+    "angular-material": "master",
+    "mdPickers": "0.7.5",
+    "angular-dateParser": "1.2.0",
+    "ng-file-upload-shim": "12.2.13",
+    "ng-file-upload": "12.2.13",
+    "angular-momentjs": "0.2.2",
+    "animate.css": "animate-css#3.5.1",
+    "moment": "2.18.1",
+    "angular-facebook": "enure/angular-facebook#allow-init-after-page-load",
+    "angular-file-saver": "1.1.3",
+    "angulartics": "1.4.0",
+    "angulartics-google-analytics": "0.4.0",
+    "interact": "1.2.9",
+    "es6-shim": "0.35.3"
+  },
+  "resolutions": {
+    "angular": "1.6.6",
+    "angular-material": "master",
+    "moment": "2.18.1"
+  }
+}

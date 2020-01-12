@@ -1,0 +1,20 @@
+<div class="cal-slide-box calendarscroll" md-collapse-fallback="vm.isCollapsed">
+    <div class="cal-slide-content calendar-box cal-event-list">
+        <md-list>
+            <md-list-item layout-align="space-between center" ng-repeat="event in vm.events | orderBy:'startsAt' track by event.$id" ng-class="event.cssClass" md-draggable="event.draggable === true" drop-data="{event: event}">
+                <div class="md-list-item-text" flex>
+                    <h4>
+                            <span ng-bind-html="vm.$sce.trustAsHtml(event.title)"></span> (
+                            <span ng-bind="event.startsAt | calendarDate:(isMonthView ? 'time' : 'datetime'):true"></span><span ng-if="vm.calendarConfig.displayEventEndTimes && event.endsAt"> - <span ng-bind="event.endsAt | calendarDate:(isMonthView ? 'time' : 'datetime'):true"></span></span>)
+                        </h4>
+                </div>
+                <div flex>
+                    <md-button ng-click="vm.onEventClick({calendarEvent: event})">View</md-button>
+                    <md-button ng-if="vm.editEventHtml && event.editable !== false" ng-bind-html="vm.$sce.trustAsHtml(vm.editEventHtml)" ng-click="vm.onEditEventClick({calendarEvent: event})">Edit</md-button>
+                    <md-button ng-if="vm.deleteEventHtml && event.deletable !== false" ng-bind-html="vm.$sce.trustAsHtml(vm.deleteEventHtml)" ng-click="vm.onDeleteEventClick({calendarEvent: event})">Delete</md-button>
+                </div>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<md-dialog class="pp-dialog add-resources-dialog" aria-label="Add Competing Employees">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Add Competing Employees</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <form id="addCompetingEmployeesForm" class="add-resources-form" ng-submit="submit(addCompetingEmployeesForm)" name="addCompetingEmployeesForm" novalidate>
+            <div layout="row" class="content" layout-fill>
+                <div class="content-left" layout="column" flex="60">
+                    <div class="results">
+                        <p class="md-subtitle pp-margin-none">Employees</p>
+
+                        <!-- Employees List -->
+                        <md-list>
+                            <md-virtual-repeat-container class="vertical-container">
+                                <md-list-item class="pp-margin-none">
+                                    <md-icon class="material-icons">add</md-icon>
+                                    <input type="text" id="emails" name="emails" dn-multiple-email-validator class="pp-multi-line pp-padding pp-width-full" ng-model="emails">
+                                    </input>
+                                </md-list-item>
+                                <md-list-item class="pp-multi-line pp-padding pp-width-full" ng-if="addCompetingEmployeesForm.$invalid" ng-messages="addCompetingEmployeesForm.emails.$error" style="color: red;">You can enter emails or phone numbers separated by commas</md-list-item>
+                                <md-list-item class="pp-margin-none" md-virtual-repeat="employee in employees" ng-click="selectEmployee(employee)">
+                                    <div class="add-products-thumb-container">
+                                        <img class="add-products-thumb" ng-src="{{ employee.user.image }}">
+                                    </div>
+                                    <div class="pp-multi-line pp-padding pp-width-full">
+                                        {{ employee.user.name }}
+                                    </div>
+                                    <md-icon ng-if="employee.selected" class="material-icons">check_box</md-icon>
+                                    <md-icon ng-if="!employee.selected" class="material-icons">check_box_outline_blank</md-icon>
+                                </md-list-item>
+                            </md-virtual-repeat-container>
+                        </md-list>
+                    </div>
+                </div>
+                <div class="content-right" flex="40" style="overflow: auto;">
+                    <p class="md-subtitle pp-margin-none">Selected {{selectedEmployees.length}}</p>
+                    <!-- Employees List -->
+                    <md-list>
+                        <md-virtual-repeat-container class="vertical-container">
+                            <md-list-item class="pp-margin-none" md-virtual-repeat="employee in selectedEmployees">
+                                <div class="add-products-thumb-container">
+                                    <img class="add-products-thumb" ng-src="{{ employee.user.image }}">
+                                </div>
+                                <div class="pp-multi-line pp-padding pp-width-full">
+                                    {{ employee.user.name }}
+                                </div>
+                                <md-button class="md-icon-button md-secondary pp-card-close" ng-click="removeIndex($index, employee._id, employee)" aria-label="Remove Employee">
+                                    <md-icon class="material-icons">delete</md-icon>
+                                    <md-tooltip md-direction="left">Remove Employee</md-tooltip>
+                                </md-button>
+                            </md-list-item>
+                        </md-virtual-repeat-container>
+                    </md-list>
+                </div>
+            </div>
+        </form>
+        <mini-dialog></mini-dialog>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button aria-label="Cancel" ng-click="cancel()">Cancel</md-button>
+        <md-button aria-label="Update" class="md-primary md-raised" ng-disabled="addCompetingEmployeesForm.$invalid" type="submit" form="addCompetingEmployeesForm">Update</md-button>
+    </md-dialog-actions>
+</md-dialog>

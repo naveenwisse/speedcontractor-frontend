@@ -1,0 +1,70 @@
+<md-card>
+    <div class="head-dashboard">
+        <span class="circle-red after-crircle"><img></span> - Requires attention
+        <span class="circle-blue after-crircle"><img></span> - Upcoming 48hrs
+        <span class="circle-green after-crircle"><img></span> - Everything ok
+    </div>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="tabs.myTabIndex">
+        <md-tab>
+            <md-tab-label>
+                <span>jobs </span>
+                <span ng-class="(badges.job.red>0) ? 'circle-red' : ((badges.job.blue>0) ? 'circle-blue' : 'circle-green')">
+                    {{(badges.job.red + badges.job.blue + badges.job.green)}}
+                    <md-tooltip class="custom-tooltip">
+                        <p><span class="circle-red after-crircle">{{badges.job.red}}</span> - Requires attention</p>
+                        <p><span class="circle-blue after-crircle">{{badges.job.blue}}</span> - Upcoming 48hrs</p>
+                        <p><span class="circle-green after-crircle">{{badges.job.green}}</span> - Everything ok</p>
+                    </md-tooltip>
+                 </span>
+            </md-tab-label>
+            <md-tab-body>
+                <md-content class="md-padding">
+                    <div ng-if="user.jobs.length" ng-include="'cards/profile-jobs.html'"></div>
+                    <div ng-if="!loadingFeed" ng-include="'cards/profile-feed.html'" class="feed-item" ng-repeat="item in feedJobs | orderBy: 'startTime' track by $index"></div>
+                    <div ng-if="user.pendingJobs.length" ng-include="'cards/profile-requests-jobs.html'"></div>
+                    <!-- Mass Hire -->
+                    <div ng-include="'cards/business-masshire.html'" ng-repeat="item in massHireList | orderBy: ['-available', '-created'] track by item._id" ng-if="!currentMasshire && item.available > 0"></div>
+                    <div ng-if="currentMasshire">
+                        <md-button ng-if="currentMasshire" class="md-primary pp-margin-none" ng-click="backToMassHireList()">
+                            <i class="material-icons back">keyboard_arrow_left</i> Back To List
+                        </md-button>
+                        <div ng-include="'cards/profile-feed.html'" ng-repeat="item in currentMasshire.resourcesGroups | orderBy: ['startsAt', 'startTime'] track by item._id"></div>    
+                    </div>
+                    <div ng-if="user.pendingJobs.length <= 0 && user.resources.length <= 0">You have no Jobs</div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+        
+        <md-tab md-active="tabs.myTabIndex == 5">
+            <md-tab-label>
+                <md-menu>
+                    <div ng-click="$mdOpenMenu($event)">
+                        <span>...</span>
+                    </div>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="changeOther(1)">
+                                Reviews
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="changeOther(2)">
+                                History
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-tab-label>
+            <md-tab-body>
+                <md-content ng-if="other == 1" class="md-padding">
+                    <div ng-if="user.reviewProducts.length" ng-include="'cards/profile-pending-review.html'"></div>
+                    <div ng-if="user.myReviews.length" ng-include="'cards/profile-my-reviews.html'"></div>
+                    <div ng-if="user.reviewProducts.length <= 0 && user.myReviews.length <= 0">You have no Reviews</div>
+                </md-content>
+                <md-content ng-if="other == 2" class="md-padding">
+                    <div>You have no history</div>
+                </md-content>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</md-card>

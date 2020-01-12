@@ -1,0 +1,88 @@
+<md-dialog class="pp-dialog" aria-label="Edit Profile">
+    <form name="addExperienceForm" ng-submit="submitDialog(addExperienceForm)" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Experience</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <!-- Job Type -->
+            <md-input-container class="md-block">
+                <label>Job Type</label>
+                <md-select ng-model="dialogFormData.selectedJob" name="title" required>
+                    <md-option value="{{jobType}}" ng-repeat="jobType in jobTypes track by $index">{{jobType}}</md-option>
+                </md-select>
+                <div ng-if="addExperienceForm.$submitted" ng-messages="addExperienceForm.title.$error">
+                    <div ng-message="required">Job type is required.</div>
+                </div>
+            </md-input-container>
+            <!-- Employer -->
+            <md-autocomplete
+                flex
+                required
+                md-input-name="business"
+                md-delay="500"
+                md-no-cache="true"
+                md-selected-item="dialogFormData.business"
+                md-search-text="dialogFormData.searchText"
+                md-search-text-change="searchTextChange(dialogFormData.searchText)"
+                md-items="item in querySearch(dialogFormData.searchText)"
+                md-item-text="item.companyName + ' (' + item.formattedAddress + ')'"
+                md-floating-label="Business"
+                >
+                <md-item-template>
+                    <div class="auto-item">
+                        <img class="auto-avatar-img" ng-src="{{item.image}}">
+                        <div class="auto-meta">
+                            <div class="auto-cell">
+                                <span class="auto-name" md-highlight-text="dialogFormData.searchText"> {{item.companyName}} ({{item.formattedAddress}}) </span>
+                                <br><span class="auto-address">{{item.formattedAddress}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </md-item-template>
+                <md-not-found>
+                    No business matching "{{dialogFormData.searchText}}" were found.
+                </md-not-found>
+                <div ng-messages="addExperienceForm.business.$error" ng-if="addExperienceForm.business.$touched">
+                    <div ng-message="required">You <b>must</b> provide a business.</div>
+                </div>
+            </md-autocomplete>
+            <!-- Date Attended -->
+            <div layout="flex">
+                <!-- Start Date -->
+                <md-input-container flex>
+                    <label>Start Year</label>
+                    <year-select ng-model="dialogFormData.from" name="from" required></year-select>
+                    <div ng-if="addExperienceForm.$submitted" ng-messages="addExperiencForm.from.$error">
+                        <div ng-message="required">Start Year required.</div>
+                    </div>
+                </md-input-container>
+                <!-- End Date -->
+                <md-input-container flex>
+                    <label>End Year</label>
+                    <year-select ng-model="dialogFormData.to" name="to" min-year="dialogFormData.from" ng-disabled="!dialogFormData.from" allow-current="true" required>
+                    </year-select>
+                    <div ng-if="addExperienceForm.$submitted" ng-messages="addExperienceForm.to.$error">
+                        <div ng-message="required">End Year required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        <p ng-if="dialogFormData.to === 'Current' && dialogFormData.business !== null">Since this is a current position, the business will be required to confirm your employment.</p>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button class="md-primary md-raised" type="submit">
+                <span>Add</span>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

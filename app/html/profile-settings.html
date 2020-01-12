@@ -1,0 +1,37 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button class="md-primary pp-margin-none" ui-sref="profile.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Settings</span>
+</div>
+<md-card ng-if="isUser">
+    <md-card-header>
+        <div class="md-title">Billing Information</div>
+    </md-card-header>
+    <md-card-content>
+        <stripe-account
+            account-type="User"
+            account-holder="{{$user._id}}"
+            >
+        </stripe-account>
+    </md-card-content>
+</md-card>
+
+<md-card ng-if="isUser">
+    <md-card-header>
+        <div class="md-title">Email</div>
+    </md-card-header>
+    <md-card-content>
+        <md-input-container style="width: 100%">
+            <label>Email (you can change this email address)</label>
+            <input class="md-primary" type="email" name="email" placeholder="Email" ng-model="userEmail" style="width:100%" required />
+        </md-input-container>
+        <md-input-container style="width: 100%">
+            <label>Repeat new email address</label>
+            <input class="md-primary" type="email" name="repeatemail" placeholder="Repeat email" ng-model="newUserEmail" style="width:100%" required />
+        </md-input-container>
+        <md-button class="md-primary" ng-click="updateEmail(userEmail, newUserEmail)">
+            Update
+        </md-button>
+    </md-card-content>
+</md-card>

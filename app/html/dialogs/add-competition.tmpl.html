@@ -1,0 +1,194 @@
+<md-dialog class="pp-dialog add-resources-dialog add-resources-dialog-competition single" aria-label="Create Competition">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Create Competition</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <md-tabs class="add-resources-tabs" md-selected="selectedIndex" md-center-tabs md-dynamic-height md-border-bottom>
+            <!-- <md-tab label="Competition Type" ng-disabled="!(typeSelected == 0)">
+                <md-content>
+                    <div class="content" layout-fill>
+                        <div class="content-left">
+                            <div class="results">
+                                
+                                <div layout="column">
+                                    <md-list-item class="pp-margin-none" ng-repeat="(index, typeCompetition) in typesCompetitions" ng-click="selectTypeCompetition(index)">
+                                        <div class="pp-multi-line pp-padding pp-width-full">
+                                            {{ typeCompetition.name }}
+                                        </div>
+                                        <md-icon ng-if="typeCompetition.selected" class="material-icons">radio_button_checked</md-icon>
+                                        <md-icon ng-if="!typeCompetition.selected" class="material-icons">radio_button_unchecked</md-icon>
+                                    </md-list-item>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab> -->
+            <md-tab label="Competition Info" ng-disabled="!(typeSelected == 0)">
+                <md-content >
+                    <form id="addCompetitionForm" class="add-competition-form" ng-submit="next(addCompetitionForm)" name="addCompetitionForm" novalidate>
+                        <div class="content" layout-fill>
+                            <div class="content-left">
+                                <div class="results">
+                                    <!-- Title -->
+                                    <div layout="column">
+                                        <md-input-container>
+                                            <label>Competition Name</label>
+                                            <input class="md-primary" type="text" name="title" ng-model="formData.title" autofocus required />
+                                            <div ng-if="(addCompetitionForm.title.$dirty && addCompetitionForm.title.$invalid) || addCompetitionForm.$submitted" ng-messages="addCompetitionForm.title.$error">
+                                                <div ng-message="required">Competition Name required.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container >
+                                            <label>Total Prize Amount</label>
+                                            <input class="md-primary" type="number" ng-min="1" name="gift" ng-model="formData.gift" ng-change="updateCost(formData.gift)" autofocus required />
+                                            <div ng-if="(addCompetitionForm.gift.$dirty && addCompetitionForm.gift.$invalid) || addCompetitionForm.$submitted" ng-messages="addCompetitionForm.gift.$error">
+                                                <div ng-message="required">Competition Total Prize amount required.</div>
+                                                <div ng-message="min">Amount must be greater than 1.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container >
+                                                <label>Speed Contractor Service Fee</label>
+                                                <input class="md-primary" type="number" name="fee" ng-model="formData.fee" autofocus required ng-disabled="true"/>
+                                            </md-input-container>
+                                        <md-input-container >
+                                            <label>Total cost including services and prizes</label>
+                                            <input class="md-primary" type="number" name="cost" ng-model="formData.cost" autofocus required ng-disabled="true"/>
+                                        </md-input-container>
+                                        <datetime-range
+                                            starts-at="formData.startsAt"
+                                            ends-at="formData.endsAt"
+                                            default-date-offset-between="offsetDate">
+                                        </datetime-range>
+                                        <!-- Descritpion -->
+                                        <md-input-container class="md-block">
+                                            <label>Description</label>
+                                            <input class="md-primary" ng-model="formData.description" type="text" name="description" required />
+                                            <div ng-if="(addCompetitionForm.description.$dirty && addCompetitionForm.description.$invalid) || addCompetitionForm.$submitted" ng-messages="addCompetitionForm.description.$error">
+                                                <div ng-message="required">Description is required.</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </md-content>
+            </md-tab>
+            <md-tab id="tab1" label="Select Businesses" ng-disabled="!(typeSelected == 1)">
+                <md-content>
+                    <div class="select_business_sentence pp-bold">
+                        <p>Choose the restaurants that you want to compete in this competition.</p>
+                    </div>
+                    <form id="addBusinessesForm" class="add-businesses-form" ng-submit="next(addBusinessesForm)" name="addBusinessesForm" novalidate>
+                        <div class="content" layout-fill>
+                            <div class="content-left">
+                                <div class="results">
+                                    <!-- Business -->
+                                    <md-autocomplete flex md-input-name="business" md-delay="500" md-no-cache="true" md-selected-item="formData.business" md-search-text="formData.searchText" md-search-text-change="searchTextChange(formData.searchText)" md-selected-item-change="selectedItemChange(formData.business)" md-items="item in querySearch(formData.searchText)" md-item-text="item.companyName + ' (' + item.formattedAddress + ')'" md-floating-label="Business">
+                                        <md-item-template>
+                                            <div class="auto-item">
+                                                <img class="auto-avatar-img" ng-src="{{item.image}}">
+                                                <div class="auto-meta">
+                                                    <div class="auto-cell">
+                                                        <span class="auto-name" md-highlight-text="formData.searchText"> {{item.companyName}} ({{item.formattedAddress}}) </span>
+                                                        <br><span class="auto-address">{{item.formattedAddress}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No business matching "{{formData.searchText}}" were found.
+                                        </md-not-found>
+                                        <div ng-messages="addCompetitionForm.business.$error" ng-if="addCompetitionForm.business.$touched">
+                                            <div ng-message="required">You <b>must</b> provide a business.</div>
+                                        </div>
+                                    </md-autocomplete>
+                                    <div>
+                                        <md-list>
+                                            <md-list-item ng-repeat="biz in competitors track by $index">
+                                                {{ biz.companyName }} ({{biz.formattedAddress}})
+                                                <md-button ng-click="removeCompetitor($index)" class="md-icon-button md-secondary pp-card-close">
+                                                    <md-icon class="material-icons">close</md-icon>
+                                                </md-button>
+                                                <md-divider ng-hide="$last"></md-divider>
+                                            </md-list-item>
+                                        </md-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </md-content>
+            </md-tab>
+            <md-tab id="tab2" label="Prize" ng-disabled="!(typeSelected == 2)">
+                <md-content >
+                    <form id="addPrizeForm" class="add-competition-form" ng-submit="submit(addCompetitionForm)" name="addCompetitionForm" novalidate>
+                        <div class="content" layout-fill>
+                            <div class="content-left">
+                                <div class="results">
+                                    <!-- Title -->
+                                    <div layout="column">
+                                        <div class="competition_prize_labels" style="margin-top:10px;">
+                                            <span>You have selected {{competitors.length}} businesses to participate in this competition. 
+                                                 The total prize amount you selected is {{prize[0]|currency}}.
+                                                  The prizes will be distributed via gift cards in the following amounts:</span>
+                                        </div>
+                                        <div class="competition_prize_labels" style="margin-top:20px;" >
+                                            <span>Prizes</span>
+                                        </div>
+                                        <div class="competition_prize_labels" ng-if="prize[1]>0">
+                                            <span>First Place {{prize[1] | currency}}</span>
+                                        </div>
+                                        <div class="competition_prize_labels" ng-if="prize[2]>0">
+                                            <span>Second Place {{prize[2] | currency}}</span>
+                                        </div>
+                                        <div class="competition_prize_labels" ng-if="prize[3]>0">
+                                            <span>Third Place {{prize[3] | currency}}</span>
+                                        </div>
+                                        <div class="competition_prize_labels" style="margin-top:20px;">
+                                            <span>Total Prize Amount {{prize[0] | currency}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+        <mini-dialog></mini-dialog>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <!-- <div layout="row" layout-align="end center" ng-if="selectedIndex === 0">
+            <md-button class="md-primary md-raised" ng-click="nextType()" ng-disabled="!typeSelectedCompetition">Next</md-button>
+            <md-button ng-click="cancel()">Cancel</md-button>
+        </div> -->
+        <div layout="row" layout-align="end center" ng-if="selectedIndex === 0">
+            <!-- <md-button ng-click="back()">Back</md-button> -->
+            <md-button class="md-primary md-raised" type="submit" form="addCompetitionForm" ng-disabled="addCompetitionForm.$invalid">Next</md-button>
+            <md-button ng-click="cancel()">Cancel</md-button>
+        </div>
+        <div layout="row" layout-align="end center" ng-if="selectedIndex === 1">
+            <md-button ng-click="back()">Back</md-button>
+            <md-button class="md-primary md-raised" type="submit" form="addBusinessesForm" ng-disable="competitors.length<0">Next</md-button>
+            <md-button ng-click="cancel()">Cancel</md-button>
+        </div>
+        <div layout="row" layout-align="end center" ng-if="selectedIndex === 2">
+            <md-button ng-click="back()">Back</md-button>
+            <md-button class="md-primary md-raised" type="submit" form="addPrizeForm">Finish</md-button>
+            <md-button ng-click="cancel()">Cancel</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

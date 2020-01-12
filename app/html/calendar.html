@@ -1,0 +1,41 @@
+<md-card layout-padding flex>
+    <h2 style="text-align:center;">{{ calendar.calendarTitle }}</h2>
+    <div layout-xs="column" layout-sm="column" layout-gt-sm="row" layout-align="center center" layout-align-gt-sm="none none">
+        <div flex>
+            <md-button md-date-modifier date="calendar.calendarDay" decrement="calendar.calendarView">
+                Previous
+            </md-button>
+            <md-button md-date-modifier date="calendar.calendarDay" set-to-today>
+                Today
+            </md-button>
+            <md-button md-date-modifier date="calendar.calendarDay" increment="calendar.calendarView">
+                Next
+            </md-button>
+        </div>
+        <span flex="20"></span>
+        <div flex>
+            <md-radio-group ng-model="calendar.calendarView" style="float:right;">
+                <!-- <md-radio-button class="md-primary" value="year">Year</md-radio-button> -->
+                <md-radio-button class="md-primary cal-radio-button" value="month">Month</md-radio-button>
+                <md-radio-button class="md-primary cal-radio-button" value="week">Week</md-radio-button>
+                <md-radio-button class="md-primary cal-radio-button" value="day">Day</md-radio-button>
+            </md-radio-group>
+        </div>
+    </div>
+    <br>
+    <md-large-calendar
+    events="calendar.events"
+    view="calendar.calendarView"
+    view-title="calendar.calendarTitle"
+    current-day="calendar.calendarDay"
+    on-event-click="calendar.eventClicked(calendarEvent)"
+    on-event-times-changed="calendar.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+    on-edit-event-click="calendar.eventEdited(calendarEvent)"
+    on-delete-event-click="calendar.eventDeleted(calendarEvent)"
+    cell-is-open="calendar.isCellOpen"
+    day-view-start="06:00"
+    day-view-end="22:00"
+    day-view-split="30"
+    cell-modifier="calendar.modifyCell(calendarCell)">
+    </md-large-calendar>
+</md-card>

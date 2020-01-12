@@ -1,0 +1,50 @@
+<div class="login-view-panel" layout="row" layout-align="center center" layout-margin>
+    <div class="login-view-card" layout="column" flex="100">
+        <span class="md-headline" layout-padding>
+            <span ng-hide="reset.tokenProvided">Forgot Password</span>
+        <span ng-show="reset.tokenProvided">Reset Password</span>
+        </span>
+        <md-card>
+            <md-card-content ng-if="!reset.tokenProvided" layout-padding>
+                <form name="forgotForm" autocomplete="off" novalidate pp-submit="reset.forgot()">
+                    <md-input-container class="md-block">
+                        <label>Email</label>
+                        <input type="text" name="email" autofocus required ng-model="reset.email" />
+                        <div ng-if="(forgotForm.email.$dirty && forgotForm.email.$invalid) || forgotForm.$submitted" ng-messages="forgotForm.email.$error">
+                            <div ng-message="required">Email address is required.</div>
+                        </div>
+                    </md-input-container>
+                    <div class="form-action-button-panel">
+                        <md-button class="md-raised md-primary" type="submit">Reset Password</md-button>
+                    </div>
+                </form>
+            </md-card-content>
+            <md-card-content ng-if="reset.tokenProvided" layout-padding>
+                <form name="resetForm" autocomplete="off" novalidate pp-submit="reset.reset()">
+                    <!-- Password -->
+                    <md-input-container class="md-block">
+                        <label>New Password</label>
+                        <input class="md-primary" ng-model="reset.password" ng-minlength="4" ng-maxlength="14" password-check type="password" name="password" autocomplete="off" required />
+                        <div ng-if="(resetForm.password.$dirty && resetForm.password.$invalid) || forgotForm.$submitted" ng-messages="resetForm.password.$error">
+                            <div ng-message="required">Password is required.</div>
+                            <div ng-message="minlength, maxlength">Password must be between 4 and 14 characters.</div>
+                            <div ng-message="passwordCheck">Password must contain at least 1 letter and 1 number, and be between 4-14 characters</div>
+                        </div>
+                    </md-input-container>
+                    <!-- Confirm Password -->
+                    <md-input-container class="md-block">
+                        <label>Confirm Password</label>
+                        <input class="md-primary" ng-model="reset.passwordConfirm" ng-maxlength="25" type="password" name="passwordConfirm" autocomplete="off" must-match="{{reset.password}}" required />
+                        <div ng-if="(resetForm.passwordConfirm.$dirty && resetForm.passwordConfirm.$invalid) || forgotForm.$submitted" ng-messages="resetForm.passwordConfirm.$error">
+                            <div ng-message="required">Password Confirmation is required.</div>
+                            <div ng-message="mustMatch">Password and confirmation must match.</div>
+                        </div>
+                    </md-input-container>
+                    <div class="form-action-button-panel">
+                        <md-button class="md-raised md-primary" type="submit">Update Password</md-button>
+                    </div>
+                </form>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

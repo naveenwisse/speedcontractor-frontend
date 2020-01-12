@@ -1,0 +1,35 @@
+<md-dialog class="pp-dialog" aria-label="Edit Profile" autocomplete="off">
+    <form name="businessForm" ng-submit="submit(businessForm)" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Edit phone</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <!-- Address Line 1 -->
+            <md-input-container class="md-block">
+                <label>Mobile phone</label>
+                <input class="md-primary" ng-model="dialogFormData.mobilePhone" type="text" ng-pattern="patternPhone" name="mobilePhone" required placeholder="Eg: +1 4233 2342342, need national code" />
+                <div ng-if="businessForm.$submitted" ng-messages="businessForm.mobilePhone.$error">
+                    <div ng-message="required">Phone required.</div>
+                    <div ng-message="pattern">Phone must be valid.</div>
+                </div>
+                <span>Please add a 1 plus your area code when entering your phone number</span>
+            </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button class="md-primary md-raised" type="submit">
+                Update
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

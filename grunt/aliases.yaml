@@ -1,0 +1,42 @@
+default:
+- 'local'
+
+local:
+- 'clean'
+- 'concurrent:lint'
+- 'concurrent:pre-build'
+- 'concurrent:compile-1st-pass'
+- 'concat'
+- 'replace:local'
+- 'uglify'
+- 'babel'
+- 'browserify'
+- 'concurrent:compile-2nd-pass'
+
+stage:
+- 'clean'
+- 'concurrent:lint'
+- 'concurrent:pre-build'
+- 'concurrent:compile-1st-pass'
+- 'concat'
+- 'replace:stage'
+- 'uglify'
+- 'babel'
+- 'browserify'
+- 'concurrent:compile-2nd-pass'
+
+prod:
+- 'clean'
+- 'concurrent:lint'
+- 'concurrent:pre-build'
+- 'concurrent:compile-1st-pass'
+- 'concat'
+- 'replace:prod'
+- 'uglify'
+- 'babel'
+- 'browserify'
+- 'concurrent:compile-2nd-pass'
+
+serve:
+- 'connect:livereload'
+- 'watch'

@@ -1,0 +1,34 @@
+<div
+    class="text-center" 
+    layout-sm="column" 
+    layout-gt-sm="row" 
+    layout-align="center" 
+    layout-padding
+    >
+    <div flex layout="column" flex-gt-sm="50" flex-sm="100">
+        <h1 class="md-display-0">Confirm Stripe account</h1>
+        <md-card class="pp-padding">
+            <md-card-content>            
+                <div ng-if="confirming" layout="row" layout-align="center">
+                    <i class="material-icons pp-primary">compare_arrows</i>
+                    <span class="pp-margin-left">
+                        Just a sec, we're confirming your Stripe account &hellip;
+                    </span>
+                </div>
+                <div ng-if="confirmed" layout="row" layout-align="center">
+                    <i class="material-icons pp-primary">check_circle</i>
+                    <span class="pp-margin-left">
+                        Your account has been confirmed, you are now connected to Stripe.
+                    </span>
+                </div>
+                <div ng-if="error == 'access_denied'" layout="row" layout-align="center">
+                    <i class="material-icons md-warn">error</i>
+                    <span class="pp-margin-left">
+                        Shoot, you didn't link your account. We won't be able to pay people
+                        for you until a Stripe account has been linked.
+                    </span>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

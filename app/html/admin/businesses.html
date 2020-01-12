@@ -1,0 +1,20 @@
+<pp-menu-admin></pp-menu-admin>
+<div layout="row" layout-wrap flex="66" layout-align="center center">
+	<md-list>
+	  <md-list-item class="md-2-line" ng-repeat="businesses in admin.businesses">
+	    <div class="md-list-item-text" layout="row" layout-wrap>
+	      <div flex="66">
+	      	<h3>{{businesses.companyName}}</h3>
+	      	<p>{{businesses.email}}</p>
+	      	<p>{{(businesses.status == 'active') ? 'Actived Businesses' : 'Suspended Businesses'}}</p>
+	      </div>
+	      <div flex="33">
+	      	<md-button class="md-warn" ng-click="admin.suspendBusinessesClick(businesses._id, businesses.status)">{{(businesses.status == 'active') ? 'Suspend' : 'Enable'}}</md-button>
+	      </div>
+	    </div>
+	  </md-list-item>
+	</md-list>
+</div>
+<div layout="row" layout-wrap flex="66" layout-align="center center">
+	<pagination count="admin.count" take="admin.filter.limit" activate="admin.changePage"></pagination>
+</div>

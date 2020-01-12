@@ -1,0 +1,40 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Education</span>
+        <md-button ng-if="isUser" class="md-primary card-action-button" ng-click="educationDialog($event)">
+            <span>Add</span>
+        </md-button>
+    </div>
+    <md-divider></md-divider>
+</div>
+<md-card-content class="profile-list-card">
+    <div ng-if="!user.education.length" class="text-center pp-padding text-small">No education information has been added</div>
+    <md-list ng-if="isUser && user.education.length">
+        <md-list-item ng-click="educationDialog($event,education)" ng-repeat="education in user.education | orderBy:'-startDate' track by $index">
+            <div flex class="pp-multi-line pp-width-full">
+                <p><span class="pp-bold">{{education.studied}}</span>
+                    <br ng-if="education.courseCompleted">
+                    <small ng-if="education.courseCompleted">{{education.courseCompleted}}</small>
+                    <br><small>{{education.schoolName}}</small>
+                    <br><small>{{education.startDate}} - {{education.endDate}}</small>
+                </p>
+            </div>
+            <md-button class="md-icon-button md-secondary" aria-label="Delete" ng-click="removeEducation($event, education)">
+                <md-icon ng-if="isUser" class="material-icons">delete</md-icon>
+                <md-tooltip md-direction="left">Delete</md-tooltip>
+            </md-button>
+        </md-list-item>
+    </md-list>
+    <md-list ng-if="!isUser && user.education.length">
+        <md-list-item ng-repeat="education in user.education | orderBy:'-startDate' track by $index">
+            <div flex class="pp-multi-line pp-width-full">
+                <p><span class="pp-bold">{{education.studied}}</span>
+                    <br ng-if="education.courseCompleted">
+                    <small ng-if="education.courseCompleted">{{education.courseCompleted}}</small>
+                    <br><small>{{education.schoolName}}</small>
+                    <br><small>{{education.startDate}} - {{education.endDate}}</small>
+                </p>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

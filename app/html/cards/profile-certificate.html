@@ -1,0 +1,44 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Certificates</span>
+        <md-button
+            ng-if="isUser"
+            ng-click="showUploadModal('certificate', 'profile')"
+            class="md-primary card-action-button"
+            aria-label="Upload Photo"
+            >
+            <span>Add</span>
+        </md-button>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="profile-list-card">
+    <div ng-if="!user.certificates.length" class="text-center pp-padding text-small">No certification has been added</div>
+    <md-list ng-if="user.certificates.length">
+        <md-list-item ng-repeat="certificate in user.certificates | orderBy:'-from' track by $index">
+            <div flex class="pp-multi-line pp-width-full pp-padding-y">
+                <div class="panel-heading cover-image" ng-style="{'background-image': 'url('+certificate +')'}">
+                    <md-button
+                        ng-if="isUser"
+                        ng-click="showCertificate($event, certificate)"
+                        class="md-icon-button md-raised photo-upload"
+                        aria-label="View Certificate"
+                        >
+                        <i class="material-icons">pageview</i>
+                        <md-tooltip>View Certificate</md-tooltip>
+                    </md-button>
+                    <md-button
+                        ng-if="isUser"
+                        ng-click="removeCertificate($event, certificate)"
+                        class="md-icon-button md-raised photo-upload"
+                        aria-label="Delete Certificate"
+                        >
+                        <i class="material-icons">delete</i>
+                        <md-tooltip>Delete Certificate</md-tooltip>
+                    </md-button>
+                </div>
+                <md-divider></md-divider>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

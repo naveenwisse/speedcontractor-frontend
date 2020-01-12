@@ -1,0 +1,55 @@
+<md-dialog class="pp-dialog" aria-label="Create Business">
+    <form name="createBusinessForm" ng-submit="submitDialog(createBusinessForm)" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Create business</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <!-- Company Name -->
+            <md-input-container class="md-block">
+                <label>Company Name</label>
+                <input class="md-primary" ng-model="dialogFormData.companyName" ng-maxlength="100" type="text" autofocus name="companyName" required />
+                <div ng-if="createBusinessForm.$submitted" ng-messages="createBusinessForm.companyName.$error">
+                    <div ng-message="required">Company Name required.</div>
+                    <div ng-message="minlength, maxlength">Company Name must be between 1 and 100 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- Email Address -->
+            <md-input-container class="md-block">
+                <label>Email Address</label>
+                <input class="md-primary" ng-model="dialogFormData.email" type="email" maxlength="75" name="email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required />
+                <div ng-if="createBusinessForm.$submitted" ng-messages="createBusinessForm.email.$error">
+                    <div ng-message="required">Email address is required.</div>
+                </div>
+            </md-input-container>
+            <!-- Confirm Email Address -->
+            <md-input-container class="md-block">
+                <label>Confirm Email Address</label>
+                <input class="md-primary" ng-model="dialogFormData.emailConfirm" type="email" maxlength="75" name="emailConfirm" autocomplete="off" autocapitalize="off" autocorrect="off" must-match="{{dialogFormData.email}}" required />
+                <div ng-if="createBusinessForm.$submitted" ng-messages="createBusinessForm.emailConfirm.$error">
+                    <div ng-message="required">Email address confirmation is required.</div>
+                    <div ng-message="mustMatch">Email address and confirmation must match.</div>
+                </div>
+            </md-input-container>
+            <!-- Representative -->
+            <md-checkbox class="md-primary" ng-model="representative.accept" aria-label="Representative">
+                <strong>I verify that I am the official representative of this company and have the right to act on behalf of my company in the creation and maintenance of this account.</strong>
+            </md-checkbox>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button type="submit" ng-disabled="!representative.accept" class="md-primary md-raised">
+                Submit
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

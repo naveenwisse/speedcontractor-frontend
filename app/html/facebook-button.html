@@ -1,0 +1,14 @@
+<div class="Login__fb">
+    <button ng-click="doAction()" class="pp-btn-facebook">
+        {{text}}
+    </button>
+    <div ng-if="type === 'signup'" class="never-post-to-facebook">We will never post to Facebook without permission.</div>
+</div>
+<div class="Login__fb-error-msg bb-form-msg--error" ng-if="noAssociatedPPAccountError">
+    A Speed Contractor account has not been found for this Facebook user.
+    <span class="bb-link" bb-emit="login.show">Log in</span> to an existing account or <span class="bb-link" bb-emit="signup.show">create a new
+        Speed Contractor account</span>.
+</div>
+<div class="Login__fb-error-msg bb-form-msg--error" ng-if="errorLoggingInWithFacebook">
+    There was an error logging you in with Facebook. Please try again later.
+</div>

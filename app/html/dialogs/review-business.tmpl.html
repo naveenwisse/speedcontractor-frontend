@@ -1,0 +1,57 @@
+<md-dialog class="pp-dialog" aria-label="Review Business">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Review Business</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <form id="reviewBusinessForm" class="event-form" ng-submit="submit(reviewBusinessForm)" name="reviewBusinessForm" novalidate>
+            <!-- Rating-Money -->
+            <md-input-container class="md-block pp-margin-y">
+                <label class="md-primary">Rating - Money</label>
+                <br>
+                <star-rating ng-model="reviewBusinessFormData.rating_money"></star-rating>
+            </md-input-container>
+            <!-- Rating-Professionalism -->
+            <md-input-container class="md-block pp-margin-y">
+                <label class="md-primary">Rating - Professionalism</label>
+                <br>
+                <star-rating ng-model="reviewBusinessFormData.rating_prof"></star-rating>
+            </md-input-container>
+            <!-- Rating-Over All -->
+            <md-input-container class="md-block pp-margin-y">
+                <label class="md-primary">Rating - Over All</label>
+                <br>
+                <star-rating ng-model="reviewBusinessFormData.rating_over"></star-rating>
+            </md-input-container>
+            <br>
+            <!-- Review -->
+            <md-input-container class="md-block pp-margin-y">
+                <label>Review</label>
+                <textarea class="md-primary" rows="5" type="text" md-maxlength="1000" name="review" ng-model="reviewBusinessFormData.review" autofocus required ></textarea>
+                <div ng-if="(reviewBusinessForm.review.$dirty && reviewBusinessForm.review.$invalid) || reviewBusinessForm.$submitted" ng-messages="reviewBusinessForm.review.$error">
+                    <div ng-message="required">Review is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block pp-margin-y">
+                <label>Notes</label>
+                <textarea class="md-primary" rows="5" type="text" md-maxlength="1000" name="notes" ng-model="reviewBusinessFormData.notes" autofocus required ></textarea>
+                <div ng-if="(reviewBusinessForm.notes.$dirty && reviewBusinessForm.notes.$invalid) || reviewBusinessForm.$submitted" ng-messages="reviewBusinessForm.notes.$error">
+                    <div ng-message="required">Notes is required.</div>
+                </div>
+            </md-input-container>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="cancel()">Cancel</md-button>
+        <md-button class="md-primary md-raised" ng-disabled="reviewBusinessForm.$invalid" type="submit" form="reviewBusinessForm">Add Review</md-button>
+    </md-dialog-actions>
+</md-dialog>

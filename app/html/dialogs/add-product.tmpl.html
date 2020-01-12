@@ -1,0 +1,87 @@
+<md-dialog class="pp-dialog" aria-label="Add Product">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Add Product</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <form id="addProductForm" class="event-form" ng-submit="submit(addProductForm)" name="addProductForm" novalidate>
+            <!-- Product Name -->
+            <md-input-container class="md-block pp-margin-y">
+                <label>Product Name</label>
+                <input class="md-primary" type="text" name="name" ng-model="addProductFormData.name" autofocus required />
+                <div ng-if="(addProductForm.name.$dirty && addProductForm.name.$invalid) || addProductForm.$submitted" ng-messages="addProductForm.name.$error">
+                    <div ng-message="required">Product name is required.</div>
+                </div>
+            </md-input-container>
+            <!-- Description -->
+            <md-input-container class="md-block pp-margin-y">
+                <label>Description</label>
+                <textarea class="md-primary" rows="4" type="text" name="description" ng-model="addProductFormData.description" autofocus maxlength="5000" required></textarea>
+                <div ng-if="(addProductForm.description.$dirty && addProductForm.description.$invalid) || addProductForm.$submitted" ng-messages="addProductForm.description.$error">
+                    <div ng-message="required">Description is required.</div>
+                </div>
+            </md-input-container>
+            <p>
+                <strong>Type:</strong>
+            </p>
+            <md-radio-group ng-model="addProductFormData.type">
+                <md-radio-button value="Beer">Beer</md-radio-button>
+                <md-radio-button value="Wine"> Wine </md-radio-button>
+                <md-radio-button value="Liquor">Liquor</md-radio-button>
+            </md-radio-group>
+            <div style="color: #d50000;" ng-if="noBoost">Please select a type.</div>
+            <!-- Select Image -->
+            <div ngf-select ngf-drop
+            ng-model="addProductFormData.image"
+            ngf-model-invalid="invalidFile"
+            name="image"
+            required
+            ng-model-options="{debounce:100}"
+            ngf-multiple="false"
+            ngf-pattern="'image/*'"
+            ngf-accept="'image/*'"
+            ngf-capture="'camera'"
+            ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'image/*'}"
+            ngf-validate="{size: {max: '20MB', min: '10B'}"
+            ngf-resize="{width: 300, height: 300, type: 'image/png', quality: .8, restoreExif: false}"
+            ngf-resize-if="$width > 300 || $height > 300"
+            ngf-keep="'false'"
+            ngf-max-files="1"
+            ngf-change="change()"
+            ngf-fix-orientation="true"
+            ngf-allow-dir="false" 
+            class="upload-box drop-box md-button"
+            ngf-drop-available="dropAvailable">
+                Select Image (Max 20Mb) <span class="pp-bold" ng-show="dropAvailable">or</span> Drag &amp; Drop Image Here
+            </div>
+            <div class="validation-messages" style="margin:0;" ng-if="invalidFile || errorMsg">
+                <div>{{errorMsg}}</div>
+                <div ng-repeat="f in invalidFiles">
+                    <div ng-if="f.$errorMessages.maxSize">Image cannot have a height over 20MB</div>
+                </div>
+            </div>
+            <div layout-wrap layout="row" layout-align="space-around center" ng-if="addProductFormData.image">
+                <div flex="none" class="upload-preview" ng-repeat="f in addProductFormData.image">
+                    <img class="thumb" ngf-thumbnail="!f.$error && f" ngf-size="{width: 200, height: 200, quality: 0.9}">
+                </div>
+            </div>
+            <!-- Correct Information -->
+            <md-checkbox class="md-primary pp-padding-y" ng-model="accept" aria-label="Accept" required>
+                <strong>You must be an authorized representative to use any copyrighted images for this product that you will represent. By clicking the add button below, you are accepting responsibility and will indemnify Plantedpeople for any legal action or fines from copyright infringement. If you are not an authorized representative, or do not agree to these terms and conditions, you cannot add the product.</strong>
+            </md-checkbox>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="cancel()">Cancel</md-button>
+        <md-button class="md-primary md-raised" ng-disabled="addProductForm.$invalid" type="submit" form="addProductForm">Add</md-button>
+    </md-dialog-actions>
+</md-dialog>

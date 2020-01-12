@@ -1,0 +1,20 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Pending requests</span>
+        <span class="pp-badge dark round">{{user.pendingJobs.length}}</span>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="pp-padding-none">
+    <md-list>
+        <md-list-item class="pp-margin-none" ng-click="acceptJob($event, job)" ng-repeat="job in user.pendingJobs track by $index">
+            <div class="pp-multi-line pp-padding-y">
+                <span class="pp-primary">{{ job.title }} - {{job.event.title}}</span> <br>
+                <small class="pp-bold">{{job.business.companyName}}</small> <br>
+                <small>Start: {{job.startTime | date : 'MMM d, y h:mm a'}}</small> <br>
+                <small>End: {{job.endTime | date : 'MMM d, y h:mm a'}}</small> <br>
+                <small>{{job.formattedAddress}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

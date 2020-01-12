@@ -1,0 +1,23 @@
+{
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "globals": {
+    "angular": true,
+    "moment": true,
+    "google": true
+  },
+  "rules":{
+    "no-console": 0
+  }
+}

@@ -1,0 +1,111 @@
+<div class="view-container" layout="row" layout-align="center center" layout-margin>
+    <div class="register-form-container" layout="column" flex>
+        <span class="md-headline text-center" layout-padding>Join Speed Contractor</span>
+        <md-card layout="column" layout-padding layout-align="center center">
+            <md-content layout-padding>
+                <facebook-button type="signup"></facebook-button>
+                <div class="hr-with-label">
+                    <div class="hr-with-label__label">or</div>
+                </div>
+                <div class="pp-warn" layout-padding ng-if="signupError"><strong>{{signupErrorText}}</strong></div>
+                <form shake-that name="regForm" novalidate submit="registerBasic(regForm)">
+                        <!-- First Name -->
+                        <md-input-container class="md-block">
+                            <label>First Name</label>
+                            <input class="md-primary" ng-model="formData.first" ng-maxlength="25" type="text" autofocus name="first" required />
+                            <div ng-if="regForm.$submitted" ng-messages="regForm.first.$error">
+                                <div ng-message="required">First Name is required.</div>
+                                <div ng-message="minlength, maxlength">First Name must be between 1 and 25 characters.</div>
+                            </div>
+                        </md-input-container>
+                        <!-- Last Name -->
+                        <md-input-container class="md-block">
+                            <label>Last Name</label>
+                            <input class="md-primary" ng-model="formData.last" ng-maxlength="25" type="text" name="last" required />
+                            <div ng-if="regForm.$submitted" ng-messages="regForm.last.$error">
+                                <div ng-message="required">Last Name is required.</div>
+                                <div ng-message="minlength, maxlength">Last Name must be between 1 and 25 characters.</div>
+                            </div>
+                        </md-input-container>
+                        <!-- Email Address -->
+                        <md-input-container class="md-block">
+                            <label>Email Address</label>
+                            <input class="md-primary" ng-model="formData.email" type="email" maxlength="75" name="email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required />
+                            <div ng-if="regForm.$submitted" ng-messages="regForm.email.$error">
+                                <div ng-message="required">Email address is required.</div>
+                            </div>
+                        </md-input-container>
+                        <!-- Confirm Email Address -->
+                        <md-input-container class="md-block">
+                            <label>Confirm Email Address</label>
+                            <input class="md-primary" ng-model="formData.emailConfirm" type="email" maxlength="75" name="emailConfirm" autocomplete="off" autocapitalize="off" autocorrect="off" must-match="{{formData.email}}" required />
+                            <div ng-if="regForm.$submitted" ng-messages="regForm.emailConfirm.$error">
+                                <div ng-message="required">Email address confirmation is required.</div>
+                                <div ng-message="mustMatch">Email address and confirmation must match.</div>
+                            </div>
+                        </md-input-container>
+                        <!-- Password -->
+                        <md-input-container class="md-block">
+                            <label>Password</label>
+                            <input class="md-primary" ng-model="formData.password" ng-minlength="4" ng-maxlength="14" password-check type="password" name="password" autocomplete="off" required />
+                            <div ng-if="regForm.$submitted" ng-messages="regForm.password.$error">
+                                <div ng-message="required">Password is required.</div>
+                                <div ng-message="minlength, maxlength">Password must be between 4 and 14 characters.</div>
+                                <div ng-message="passwordCheck">Password must contain at least 1 letter and 1 number, and be between 4-14 characters</div>
+                            </div>
+                        </md-input-container>
+                        <!-- Confirm Password -->
+                        <md-input-container class="md-block">
+                            <label>Confirm Password</label>
+                            <input class="md-primary" ng-model="formData.passwordConfirm" ng-maxlength="25" type="password" name="passwordConfirm" autocomplete="off" must-match="{{formData.password}}" required />
+                            <div ng-if="regForm.$submitted" ng-messages="regForm.passwordConfirm.$error">
+                                <div ng-message="required">Password Confirmation is required.</div>
+                                <div ng-message="mustMatch">Password and confirmation must match.</div>
+                            </div>
+                        </md-input-container>
+                        <p style="margin:0;">Birthday</p>
+                        <div layout="row">
+                            <md-input-container>
+                                <md-select ng-model="formData.month" placeholder="Month" aria-label="Month" name="month" required>
+                                    <md-option ng-repeat="month in months" ng-value="month.value">{{month.name}}</md-option>
+                                </md-select>
+                                <div ng-if="(regForm.month.$dirty && regForm.month.$invalid) || regForm.$submitted" ng-messages="regForm.month.$error">
+                                    <div ng-message="required">Month selection is required.</div>
+                                    <div ng-message="validDate">A valid birthday is required.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-select ng-model="formData.date" placeholder="Date" aria-label="Date" name="date" required>
+                                    <md-option ng-repeat="date in dates" ng-value="date">{{date}}</md-option>
+                                </md-select>
+                                <div ng-if="(regForm.date.$dirty && regForm.date.$invalid) || regForm.$submitted" ng-messages="regForm.date.$error">
+                                    <div ng-message="required">Date selection is required.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-select ng-model="formData.year" placeholder="Year" aria-label="Year" name="year" required>
+                                    <md-option ng-repeat="year in years" ng-value="year">{{year}}</md-option>
+                                </md-select>
+                                <div ng-if="(regForm.year.$dirty && regForm.year.$invalid) || regForm.$submitted" ng-messages="regForm.year.$error">
+                                    <div ng-message="required">Year selection is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div class="md-caption legal-caption">By signing up, you agree to our&nbsp;<a ui-sref="terms" target="_blank" class="pp-primary">Terms</a>&nbsp;and that you have read our&nbsp;<a ui-sref="privacy" target="_blank" class="pp-primary">Privacy Policy</a>.</div>
+                        <div layout="row">
+                            <div
+                                vc-recaptcha
+                                theme="'light'"
+                                key="recaptchaModel.key"
+                                on-create="setRecaptchaWidgetId(recaptchaWidgetId)"
+                                on-success="setRecaptchaResponse(recaptchaResponse)"
+                                on-expire="cbExpiration()"
+                            ></div>
+                        </div>
+
+                        <md-button class="md-raised md-primary" type="submit">Submit</md-button>
+                </form>
+            </md-content>
+        </md-card>
+    </div>
+</div>

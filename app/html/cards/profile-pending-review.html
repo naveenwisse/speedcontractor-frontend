@@ -1,0 +1,19 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle md-warn">Pending review products</span>
+        <span class="pp-badge dark round">{{user.reviewProducts.length}}</span>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="profile-business-card">
+    <md-list>
+        <md-list-item
+            ng-href="{{ review.slug }}/competition/{{ review.competition }}"
+            ng-repeat="review in user.reviewProducts track by $index"
+            >
+            <div class="pp-multi-line pp-width-full pp-padding-y">
+                <span class="pp-bold">{{ review.productName }}</span> - <small>{{review.competitionName}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

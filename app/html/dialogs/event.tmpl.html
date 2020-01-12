@@ -1,0 +1,49 @@
+<md-dialog class="pp-dialog" aria-label="{{dialog.event.title}}">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">{{dialog.event.title}}</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="dialog.cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </div>
+    <md-divider></md-divider>
+    <md-dialog-content>
+        <a
+            class="pp-link"
+            layout="row"
+            layout-align="start center"
+            ng-href="{{ dialog.event.business.slug }}"
+            ng-click="dialog.cancel()"
+            >
+            <img
+                class="pp-user-avatar"
+                ng-src="{{dialog.event.business.image}}"
+                class="feed-avatar md-user-avatar"
+                alt="{{dialog.event.business.companyName}}"
+                >
+            <div class="pp-margin-left">
+                {{ dialog.event.business.companyName }}
+            </div>
+        </a>
+        <br>
+        <div><strong>From:</strong> {{ dialog.event.startTime | date : 'medium'}}</div>
+        <div><strong>To:</strong> {{ dialog.event.endTime | date : 'medium'}}</div>
+        <div>
+            <strong>Location:</strong> <br>
+            {{ dialog.event.formattedAddress }}
+        </div>
+        <div><strong>Description:</strong> {{ dialog.event.additional || dialog.event.description}}</div>
+<!--         <add-to-calendar
+            start-date="{{dialog.event.startTime}}"
+            end-date="{{dialog.event.endTime}}"
+            title="{{dialog.event.title}}"
+            location="{{dialog.event.formattedAddress}}"
+            description="{{dialog.event.additional}}">
+        </add-to-calendar> -->
+    </md-dialog-content>
+</md-dialog>

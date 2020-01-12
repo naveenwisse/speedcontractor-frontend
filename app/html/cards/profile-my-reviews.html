@@ -1,0 +1,22 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">My reviews</span>
+        <span class="pp-badge dark round">{{user.myReviews.length}}</span>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="profile-business-card">
+    <md-list>
+        <md-list-item
+            ng-repeat="review in user.myReviews"
+            >
+            <div class="pp-multi-line pp-width-full pp-padding-y">
+                <span class="pp-bold">{{ review.product.name }}</span>
+                <br>
+                <small> review: {{ review.review }} </small>
+                <br>
+                <small> Notes: {{ review.notes }} </small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

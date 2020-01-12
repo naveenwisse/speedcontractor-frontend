@@ -1,0 +1,65 @@
+<md-dialog class="pp-dialog add-resources-dialog" aria-label="Add Products">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Add Products</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <form id="addTastingProductsForm" class="add-resources-form" ng-submit="submit(addTastingProductsForm)" name="addTastingProductsForm" novalidate>
+            <div layout="row" class="content" layout-fill>
+                <div class="content-left" layout="column" flex="60">
+                    <div class="results">
+                        <p class="md-subtitle pp-margin-none">Products</p>
+                        <!-- Products List -->
+                        <md-list>
+                            <md-virtual-repeat-container class="vertical-container">
+                                <md-list-item class="pp-margin-none" md-virtual-repeat="product in products" ng-click="selectProduct(product)">
+                                    <div class="add-products-thumb-container">
+                                        <img class="add-products-thumb" ng-src="{{ product.image.path }}">
+                                    </div>
+                                    <div class="pp-multi-line pp-padding pp-width-full">
+                                        {{ product.name }}
+                                    </div>
+                                    <md-icon ng-if="product.selected" class="material-icons">check_box</md-icon>
+                                    <md-icon ng-if="!product.selected" class="material-icons">check_box_outline_blank</md-icon>
+                                </md-list-item>
+                            </md-virtual-repeat-container>
+                        </md-list>
+                    </div>
+                </div>
+                <div class="content-right" flex="40" style="overflow: auto;">
+                    <p class="md-subtitle pp-margin-none">Selected {{selectedProducts.length}}</p>
+                    <!-- Products List -->
+                    <md-list>
+                        <md-virtual-repeat-container class="vertical-container">
+                            <md-list-item class="pp-margin-none" md-virtual-repeat="product in selectedProducts">
+                                <div class="add-products-thumb-container">
+                                    <img class="add-products-thumb" ng-src="{{ product.image.path }}">
+                                </div>
+                                <div class="pp-multi-line pp-padding pp-width-full">
+                                    {{ product.name }}
+                                </div>
+                                <md-button class="md-icon-button md-secondary pp-card-close" ng-click="removeIndex($index, product._id)" aria-label="Remove Product">
+                                    <md-icon class="material-icons">delete</md-icon>
+                                    <md-tooltip md-direction="left">Remove Product</md-tooltip>
+                                </md-button>
+                            </md-list-item>
+                        </md-virtual-repeat-container>
+                    </md-list>
+                </div>
+            </div>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button aria-label="Cancel" ng-click="cancel()">Cancel</md-button>
+        <md-button aria-label="Update" class="md-primary md-raised" ng-disabled="addTastingProductsForm.$invalid" type="submit" form="addTastingProductsForm">Update</md-button>
+    </md-dialog-actions>
+</md-dialog>

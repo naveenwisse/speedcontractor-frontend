@@ -1,0 +1,36 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button ng-if="isBusiness" class="md-primary pp-margin-none" ui-sref="business.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <md-button ng-if="!isBusiness" class="md-primary pp-margin-none" ui-sref="profile.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Businesses</span>
+    <md-button ng-if="isBusiness" class="md-primary pp-margin-none" ui-sref="business.main">
+    </md-button>
+    <md-button ng-if="!isBusiness" class="md-primary pp-margin-none" ui-sref="profile.main">
+    </md-button>
+</div>
+<md-card ng-if="businesses.length">
+    <md-card-content class="profile-business-card">
+        <md-list>
+            <md-list-item class="pp-margin-none" ng-repeat="business in businesses track by business._id">
+                <div class="product-img-container">
+                    <img class="product-img" ng-src="{{ business.image }}" alt="{{business.companyName}}">
+                </div>
+                <div class="pp-multi-line pp-padding pp-width-full">
+                    {{ business.companyName }} - Reviews: {{business.ratingCount}}<br>
+                    <p>Rating - Money: {{business.rating_money.toFixed(2)}}/10, Professional: {{business.rating_prof.toFixed(2)}}/10, OverAll: {{business.rating_over.toFixed(2)}}/10</p>
+                </div>
+                <md-button ng-if="business.reviews.length" class="md-primary pp-margin-none" ng-click="openViewBusinessReviews($event, business)">
+                    Reviews
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>
+<md-card ng-if="!businesses.length">
+    <md-card-content>
+        <span class="md-subhead">No businesses yet.</span>
+    </md-card-content>
+</md-card>

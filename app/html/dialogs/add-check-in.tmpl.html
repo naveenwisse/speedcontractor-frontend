@@ -1,0 +1,50 @@
+<md-dialog class="pp-dialog" aria-label="Add Check-in">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Add Check-in</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <form id="addCheckInUsersForm" ng-submit="submit($event, addCheckInUsersForm)" name="addCheckInUsersForm" novalidate>
+            <div layout="row" class="content" layout-fill>
+                <div class="content-left" layout="column" flex="100">
+                    <div class="results">
+                        <p class="md-subtitle pp-margin-none">Tasters</p>
+
+                        <!-- Employees List -->
+                        <md-list>
+                            <md-virtual-repeat-container class="vertical-container">
+                                <md-list-item class="pp-margin-none" md-virtual-repeat="us in users" ng-click="selectTaster(us)">
+                                    <div class="add-products-thumb-container">
+                                        <img class="add-products-thumb" ng-src="{{ us.image }}">
+                                    </div>
+                                    <div class="pp-multi-line pp-padding pp-width-full">
+                                        {{ us.name }}
+                                    </div>
+                                    <p class="pp-pill--green">
+                                        <i ng-if="us.check" class="material-icons">check_box</i>
+                                    </p>
+                                    <md-icon ng-if="!us.check && us.selected" class="material-icons">check_box</md-icon>
+                                    <md-icon ng-if="!us.check && !us.selected" class="material-icons">check_box_outline_blank</md-icon>
+                                </md-list-item>
+                            </md-virtual-repeat-container>
+                        </md-list>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <mini-dialog></mini-dialog>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button aria-label="Cancel" ng-click="cancel()">Cancel</md-button>
+        <md-button aria-label="Update" class="md-primary md-raised" ng-disabled="addCheckInUsersForm.$invalid" type="submit" form="addCheckInUsersForm">Check-in</md-button>
+    </md-dialog-actions>
+</md-dialog>

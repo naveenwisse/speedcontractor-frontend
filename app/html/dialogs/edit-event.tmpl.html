@@ -1,0 +1,62 @@
+<md-dialog class="pp-dialog" aria-label="Edit Event">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Edit Event</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <form id="eventForm" class="event-form" ng-submit="submit()" name="eventForm" novalidate>
+            <!-- Event Name -->
+            <div layout="column">
+                <md-input-container>
+                    <label>Event Name</label>
+                    <input class="md-primary" type="text" name="title" ng-model="formData.title" autofocus required />
+                    <div ng-if="(eventForm.title.$dirty && eventForm.title.$invalid) || eventForm.$submitted"
+                        ng-messages="eventForm.title.$error">
+                        <div ng-message="required">Event Name required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <md-checkbox class="md-primary" ng-model="diffAddress" aria-label="Different Address" ng-show="businessInfo.formattedAddress">
+                        <strong>Address is different from the business address?</strong>
+                    </md-checkbox>
+                </md-input-container>
+                <md-input-container ng-show="diffAddress || !businessInfo.formattedAddress" class="autolocation-container">
+                    <input flex id="autolocation" ng-init="loaded.resolve(true)" type="text" name="location"
+                        autocomplete="off" ng-model="formData.selectedLocation" ng-focus="geolocate()" aria-label="Location"
+                        ng-required="!businessInfo.formattedAddress" ng-keydown="removePlace()" />
+                    <div class="validation-messages" ng-if="(eventForm.location.$dirty && eventForm.location.$invalid) || eventForm.$submitted"
+                        ng-messages="eventForm.location.$error">
+                        <div ng-message="required">Location is required.</div>
+                        <div ng-message="select">You must select a location.</div>
+                    </div>
+                </md-input-container>
+
+                <datetime-range starts-at="formData.startsAt"  ends-at="formData.endsAt" min-date-day-offset="2">
+                </datetime-range>
+                
+                <!-- Descritpion -->
+                <md-input-container class="md-block">
+                    <label>Description</label>
+                    <input class="md-primary" ng-model="formData.description" type="text" name="description" required />
+                    <div ng-if="(eventForm.description.$dirty && eventForm.description.$invalid) || eventForm.$submitted"
+                        ng-messages="eventForm.description.$error">
+                        <div ng-message="required">Description is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="cancel()">Discard Changes</md-button>
+        <md-button class="md-primary md-raised" ng-disabled="eventForm.$invalid" type="submit" form="eventForm">Update</md-button>
+    </md-dialog-actions>
+</md-dialog>

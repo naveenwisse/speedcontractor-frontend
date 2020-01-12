@@ -1,0 +1,26 @@
+<div class="panel-heading cover-image" ng-style="{'background-image': 'url('+ user.coverImage +')'}">
+    <md-button ng-if="isUser" ng-click="showUploadModal('cover', 'business')" class="md-icon-button md-raised photo-upload" aria-label="Upload Photo">
+        <i class="material-icons">photo_camera</i>
+        <md-tooltip>Edit Cover Photo</md-tooltip>
+    </md-button>
+</div>
+<md-card-content>
+    <div class="text-center">
+        <div class="profile-image-container">
+            <img class="aog" ng-src="{{ user.image }}">
+            <md-button ng-if="isUser" ng-click="showUploadModal('profile', 'business')" class="md-icon-button md-raised photo-upload" aria-label="Upload Photo">
+                <i class="material-icons">photo_camera</i>
+                <md-tooltip>Edit Profile Photo</md-tooltip>
+            </md-button>
+        </div>
+        <div class="md-subtitle">{{ user.companyName }}</div>
+        <md-button ng-if="isUser" ui-sref="business.settings" class="md-icon-button md-secondary">
+            <md-icon class="material-icons">settings</md-icon>
+            <md-tooltip>Edit Settings</md-tooltip>
+        </md-button>
+        <md-button ui-sref="business.gallery" class="md-icon-button md-secondary">
+            <md-icon class="material-icons">camera_alt</md-icon>
+            <md-tooltip>Gallery</md-tooltip>
+        </md-button>
+    </div>
+</md-card-content>

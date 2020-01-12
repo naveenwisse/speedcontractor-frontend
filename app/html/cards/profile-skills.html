@@ -1,0 +1,34 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Skills</span>
+        <md-button ng-if="isUser" class="md-primary card-action-button" ng-click="skillsDialog($event)">
+            <span>Add</span>
+        </md-button>
+    </div>
+    <md-divider></md-divider>
+</div>
+<md-card-content class="profile-list-card">
+    <div ng-if="!user.skills.length" class="text-center pp-padding text-small">No skills information has been added</div>
+    <md-list ng-if="isUser && user.skills.length">
+        <md-list-item ng-click="skillsDialog($event,skill)" ng-repeat="skill in user.skills track by $index">
+            <div flex class="pp-multi-line pp-width-full">
+                <p><span class="pp-bold">{{skill.type}}</span>
+                    <br><small>{{skill.yearsProficiency}} yrs.</small>
+                </p>
+            </div>
+            <md-button class="md-icon-button md-secondary" aria-label="Delete" ng-click="removeSkill($event, skill)">
+                <md-icon ng-if="isUser" class="material-icons">delete</md-icon>
+                <md-tooltip md-direction="left">Delete</md-tooltip>
+            </md-button>
+        </md-list-item>
+    </md-list>
+    <md-list ng-if="!isUser && user.skills.length">
+        <md-list-item ng-repeat="skill in user.skills track by $index">
+            <div flex class="pp-multi-line pp-width-full">
+                <p><span class="pp-bold">{{skill.type}}</span>
+                    <br><small>{{skill.yearsProficiency}} yrs.</small>
+                </p>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

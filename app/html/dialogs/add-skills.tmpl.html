@@ -1,0 +1,43 @@
+<md-dialog class="pp-dialog" aria-label="Edit Profile">
+    <form name="addSkillsForm" ng-submit="submitDialog(addSkillsForm)" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Skills</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <!-- Skill Type-->
+            <md-input-container class="md-block">
+                <label>Skill Type</label>
+                <input class="md-primary" ng-model="dialogFormData.type" ng-maxlength="100" type="text" autofocus name="type" required />
+                <div ng-if="addSkillsForm.$submitted" ng-messages="addSkillsForm.type.$error">
+                    <div ng-message="required">Skills type required.</div>
+                    <div ng-message="minlength, maxlength">Skill type must be between 1 and 100 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- Years Experience -->
+            <md-input-container class="md-block">
+                <label>Years of Proficiency</label>
+                <input required type="number" step="1" name="yearsProficiency" ng-model="dialogFormData.yearsProficiency" min="0" max="80" />
+                <div ng-if="addSkillsForm.$submitted" ng-messages="addSkillsForm.yearsProficiency.$error">
+                    <div ng-message="required">Years of proficiency is required.</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button ng-disabled="addSkillsForm.$invalid" type="submit" class="md-primary md-raised">
+                <span ng-hide="dialogFormData._id">Add</span>
+                <span ng-show="dialogFormData._id">Save</span>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

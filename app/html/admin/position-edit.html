@@ -1,0 +1,49 @@
+<pp-menu-admin></pp-menu-admin>
+<div layout="row" layout-wrap>
+	<div flex="50" flex-offset="25" style="text-align:center">
+		<h3>{{admin.position.name}}</h3>
+	</div>
+	<div flex="50" flex-offset="25" style="text-align:center">
+		<md-button class="md-primary" data-ng-click="admin.changeView('questions')">Show Questions</md-button>
+		<md-button class="md-primary" data-ng-click="admin.changeView('terms')">Show Terms</md-button>
+		<md-button class="md-primary" data-ng-click="admin.resetPosition()">Reset</md-button>
+		<md-button class="md-primary" data-ng-click="admin.updatePosition()">Save All Changes</md-button>
+	</div>
+  <div data-ng-show="admin.showView === 'questions'" flex="50" flex-offset="25" data-ng-repeat="q in admin.position.questions">
+  	<p>Question Nº{{$index + 1}} - <input type="text" data-ng-model="q.question" style="width: 60%" />
+  		<button data-ng-click="admin.removeQuestion($index)">
+  			<md-tooltip md-direction="top">Remove Question</md-tooltip>
+  			X
+  		</button>
+  	</p>
+  	<div>
+  		<p>Answers</p>
+  		<div>
+				1 - <input type="text" data-ng-model="q.answers[0]" />
+  		</div>
+  		<div>
+				2 - <input type="text" data-ng-model="q.answers[1]" />
+  		</div>
+  		<div>
+				3 - <input type="text" data-ng-model="q.answers[2]" />
+  		</div>
+  	</div>
+	</div>
+ 	<div data-ng-show="admin.showView === 'terms'" flex="50" flex-offset="25" data-ng-repeat="t in admin.position.terms">
+ 		<div>
+			<p>Term: {{t.model}}</p>
+			<div data-ng-repeat="q in admin.questions">
+				<label>
+					Question Nº{{q}} -
+		 			<input type="checkbox"
+		 			data-ng-init="model = admin.isChecked(t.model, q)"
+		       data-ng-model="model"
+		       data-ng-change="model = admin.check(t.model, q)">
+				</label>
+			</div>
+ 		</div>
+ 	</div>
+ 	<div flex="50" flex-offset="25">
+ 		<md-button class="md-primary" data-ng-click="admin.addQuestion()">Add Question</md-button>
+ 	</div>
+</div>

@@ -1,0 +1,244 @@
+<md-dialog class="pp-dialog add-resources-dialog" aria-label="Manage Resources">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Manage Shifts</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <md-tabs class="add-resources-tabs" md-selected="selectedIndex" md-center-tabs md-dynamic-height md-border-bottom>
+            <!-- Basic Tab -->
+            <md-tab label="Add Shifts" layout="column" layout-padding layout-align="center center" ng-disabled="resourcesCreated">
+                <md-content>
+                    <form id="addResourceForm" class="add-resources-form" name="addResourceForm" novalidate>
+                        <div layout="row" class="content" layout-fill>
+                            <div class="content-left" layout="column" flex="60">
+                                <div class="results">
+                                    <div layout="row">
+                                        <div flex>
+                                            <!-- Job Type -->
+                                            <md-input-container class="md-block">
+                                                <label>Job Type</label>
+                                                <md-select name="title" ng-model="addResourceFormData.title" required>
+                                                    <md-option ng-repeat="type in types | orderBy track by $index" value="{{type}}">{{type}}</md-option>
+                                                </md-select>
+                                                <div ng-if="(addResourceForm.title.$dirty && addResourceForm.title.$invalid) || addResourceForm.$submitted" ng-messages="addResourceForm.title.$error">
+                                                    <div ng-message="required">Job Type selection is required.</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <!-- Additional info -->
+                                            <md-input-container class="md-block">
+                                                <label>Additional information</label>
+                                                <input class="md-primary" ng-model="addResourceFormData.additional" type="text" name="additional" required />
+                                                <div ng-if="(addResourceForm.additional.$dirty && addResourceForm.additional.$invalid) || addResourceForm.$submitted" ng-messages="addResourceForm.additional.$error">
+                                                    <div ng-message="required">This field is required.</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                    <datetime-range starts-at="addResourceFormData.startTime" ends-at="addResourceFormData.endTime" min-date-day-offset="2">
+                                    </datetime-range>
+                                    <div layout="row">
+                                        <div flex>
+                                            <!-- Business provide attire -->
+                                            <md-input-container class="md-block">
+                                                <label>Business provided attire</label>
+                                                <input class="md-primary" ng-model="addResourceFormData.busAttire" type="text" name="busAttire" required />
+                                                <div ng-if="(addResourceForm.busAttire.$dirty && addResourceForm.busAttire.$invalid) || addResourceForm.$submitted" ng-messages="addResourceForm.busAttire.$error">
+                                                    <div ng-message="required">This field is required.</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <!-- Attire -->
+                                            <md-input-container class="md-block">
+                                                <label>What you need to wear</label>
+                                                <input class="md-primary" ng-model="addResourceFormData.attire" type="text" name="attire" required />
+                                                <div ng-if="(addResourceForm.attire.$dirty && addResourceForm.attire.$invalid) || addResourceForm.$submitted" ng-messages="addResourceForm.attire.$error">
+                                                    <div ng-message="required">This field is required.</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                    <!-- Compensation -->
+                                    <div class="pp-bold">Compensation</div>
+                                    <div class="compensation-text">Hourly Rate: <input type="text" name="rate" ng-model="rate" style="width: 11%;" ng-disabled="!isCheck" />
+                                        <md-checkbox aria-label="Add Differnt Dollar Amount" style="margin-left: 7px;margin-bottom: 0px;text-indent: 0px;" ng-checked="isCheck" ng-model="isCheck">Add different dollar amount per hour</md-checkbox>
+                                    </div>
+                                    <div class="compensation-text">PP Fee: {{ fee | currency:"$":2 }}</div>
+                                    <div class="compensation-text">Number of Hours: {{ hours }}</div>
+                                    <div class="compensation-text">Total: {{ (rate * hours) + fee | currency:"$":2 }}</div>
+                                    <div layout="row">
+                                        <md-button ng-if="addUpdate" ng-disabled="addResourceForm.$invalid" class="md-primary md-raised" ng-click="addResource()" aria-label="Add">Add</md-button>
+                                        <md-button ng-if="!addUpdate" ng-disabled="addResourceForm.$invalid" class="md-primary md-raised" ng-click="updateResource()" aria-label="Update">Update</md-button>
+                                        <md-button class="md-raised" ng-click="resetResourceForm()">Reset</md-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-right" flex="40">
+                                <md-list>
+                                    <md-list-item ng-repeat="resource in resources | orderBy: 'startTime' track by $index" ng-click="setAddSelected(resource)" ng-class="{active:resource.selected}">
+                                        <p>{{ resource.title }}
+                                            <br>
+                                            <small>{{resource.startTime | date:'h:mm a'}} to {{resource.endTime | date:'h:mm a'}}</small>
+                                            <br>
+                                            <small class="md-warning" ng-if="resource.delete">deleted</small></p>
+                                        <md-button class="md-icon-button" ng-click="duplicateResource(resource, $event)" aria-label="Duplicate Resource">
+                                            <i class="material-icons">add_to_photos</i>
+                                            <md-tooltip md-direction="left">Duplicate Resource</md-tooltip>
+                                        </md-button>
+                                        <md-button class="md-icon-button" ng-click="removeResource(resource, $event)" aria-label="Remove Resource" ng-if="!resource.delete && (!eventInfo.cutOff || !resource.accepted)">
+                                            <i class="material-icons">delete</i>
+                                            <md-tooltip md-direction="left">Delete Resource</md-tooltip>
+                                        </md-button>
+                                        <md-button class="md-icon-button" ng-click="undoRemoveResource(resource, $event)" aria-label="Undo Remove Resource" ng-if="resource.delete">
+                                            <i class="material-icons">undo</i>
+                                            <md-tooltip md-direction="left">Undo Delete</md-tooltip>
+                                        </md-button>
+                                        <md-divider ng-if="!$last"></md-divider>
+                                    </md-list-item>
+                                    <md-list-item ng-if="resources.length === 0">
+                                        <p>Add at least one shift to continue.</p>
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                        </div>
+                    </form>
+                </md-content>
+            </md-tab>
+            <!-- Fill Resources Tab -->
+            <md-tab label="Fill Shifts" ng-disabled="!resourcesCreated">
+                <md-content>
+                    <form id="fillResourceForm" class="fill-resources-form" ng-submit="submit()" name="fillResourceForm" novalidate>
+                        <div layout="row" class="content" layout-fill>
+                            <div class="content-left" flex="33">
+                                <md-list>
+                                    <md-list-item ng-repeat="resource in resources | orderBy: 'startTime' track by $index" ng-click="setSelected(resource)" ng-class="{active:resource.selected}" ng-if="!resource.delete">
+                                        <p>{{ resource.title }}
+                                            <br>
+                                            <small>{{resource.startTime | date:'h:mm a'}} to {{resource.endTime | date:'h:mm a'}}</small>
+                                            <br>
+                                            <small>{{resource.filled.name}}</small>
+                                        </p>
+                                        <md-button class="md-icon-button" aria-label="Unfill User" ng-if="!resource.unfilled && (!eventInfo.cutOff || !resource.accepted)" ng-click="unfill(resource, $event)">
+                                            <i class="material-icons">delete</i>
+                                            <md-tooltip md-direction="left">Unfill User</md-tooltip>
+                                        </md-button>
+                                        <md-button class="md-icon-button" ng-click="setSelected(resource)" ng-if="resource.unfilled">
+                                            <i  class="material-icons">crop_din</i>
+                                            <md-tooltip md-direction="left">Shift Unfilled</md-tooltip>
+                                        </md-button>
+                                        <md-divider ng-if="!$last"></md-divider>
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                            <div class="content-right" layout="column" flex="66">
+                                <div class="user-search-wrap" layout="row">
+                                    <input flex class="user-search" type="search" name="search" autocomplete="off" ng-model="search.name" placeholder="Select {{ resources[selectedResource].title || 'a user' }} to fill" />
+                                </div>
+                                <div class="results">
+                                    <div ng-if="appliedUsers.length" class="hr-with-label">
+                                        <div class="hr-with-label__label">Applicants</div>
+                                    </div>
+                                    <md-list-item class="pp-margin-none" ng-repeat="user in appliedUsers | filter:search | orderBy:'-overallSkill' track by $index" ng-click="fillUser(user)">
+                                        <img class="profile-businesses-thumb md-avatar" ng-src="{{ user.image }}">
+                                        <div class="md-list-item-text" layout="column">
+                                            <h4 class="pp-margin-none">
+                                                <span class="pp-primary">{{ user.name }}</span>
+                                                <span data-ng-show='hasSelected(user) !== false;'>
+                                                    (SELECTION # {{ getIndex(user) }})
+                                                </span>
+                                            </h4>
+                                            <span>{{ user.overallSkill | number:2 }}</span>
+                                        </div>
+                                    </md-list-item>
+                                    <div ng-if="usersList.length" class="hr-with-label">
+                                        <div class="hr-with-label__label">Available {{ resources[selectedResource].title || 'User' }}s</div>
+                                    </div>
+                                    <md-list-item class="pp-margin-none" ng-repeat="user in usersList | filter:search | orderBy:'-overallSkill' track by $index" ng-click="fillUser(user)">
+                                        <img class="profile-businesses-thumb md-avatar" ng-src="{{ user.image }}">
+                                        <div class="md-list-item-text" layout="column">
+                                            <h4 class="pp-margin-none">
+                                                <span class="pp-primary">{{ user.name }}
+                                                    <span data-ng-show='hasSelected(user) !== false;'>
+                                                    - (SELECTION # {{ getIndex(user) }})
+                                                    </span>
+                                                </span> <br>
+                                                <md-button>
+                                                    Reviews
+                                                    <span class="circle-green">
+                                                        {{user.reviews.length}}
+                                                     </span>
+                                                    <md-tooltip ng-class="(user.reviews.length==0) ? 'tooltip-resource-1-line' : ((user.reviews.length>=3) ? 'tooltip-resource-6-lines' : 'tooltip-resource-{{user.reviews.length*2}}-lines')">
+                                                        <p ng-if="user.reviews.length==0" >There is no reviews to show.</p>
+                                                        <p ng-repeat="review in user.reviews | orderBy:'-' | limitTo:3">
+                                                            - {{review.rating}}/10 | {{review.product.name}}, {{review.product.type}}
+                                                            <br>
+                                                            {{review.review}}
+                                                        </p>
+                                                    </md-tooltip>
+                                                </md-button>
+
+                                                <md-button>
+                                                    Tastings
+                                                    <span class="circle-green">
+                                                        {{user.tastings.length}}
+                                                     </span>
+                                                    <md-tooltip ng-class="(user.tastings.length==0) ? 'tooltip-resource-1-line' : ((user.tastings.length>=3) ? 'tooltip-resource-6-lines' : 'tooltip-resource-{{user.tastings.length*2}}-lines')">
+                                                        <p ng-if="user.tastings.length==0" >There is no tastings to show.</p>
+                                                        <p ng-repeat="tasting in user.tastings | orderBy:'-' | limitTo:3">
+                                                            - {{tasting.title}} | Business: {{tasting.business.companyName}}
+                                                            <br>
+                                                            {{tasting.startTime | date : 'MMM d, y h:mm a'}} - {{tasting.endTime | date : 'MMM d, y h:mm a'}}
+                                                        </p>
+                                                    </md-tooltip>
+                                                </md-button>
+
+                                                <md-button>
+                                                    Experience
+                                                    <span class="circle-green">
+                                                        {{user.positions.length}}
+                                                     </span>
+                                                    <md-tooltip ng-class="(user.positions.length==0) ? 'tooltip-resource-1-line' : ((user.positions.length>=5) ? 'tooltip-resource-10-lines' : 'tooltip-resource-{{user.positions.length*2}}-lines')">
+                                                        <p ng-if="user.positions.length==0" >There is no experience to show.</p>
+                                                        <p ng-repeat="position in user.positions | orderBy:'-from' | limitTo:5">
+                                                            - {{position.title}} | Employer: {{position.employer}}
+                                                            <br>
+                                                            Since {{position.from}}  to {{position.to}}
+                                                        </p>
+                                                    </md-tooltip>
+                                                </md-button>
+                                            </h4>
+                                            <span>{{ user.overallSkill | number:2 }}</span>
+                                        </div>
+                                    </md-list-item>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+        <mini-dialog></mini-dialog>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <div layout="row" layout-align="end center" ng-if="selectedIndex === 0">
+            <md-button class="md-warn" ng-click="cancel()" aria-label="Cancel">Cancel</md-button>
+            <md-button class="md-primary md-raised" ng-click="next()" ng-disabled="resources.length === 0 || !addResourceForm.$pristine" aria-label="Next">Next</md-button>
+        </div>
+        <div layout="row" layout-align="end center" ng-if="selectedIndex === 1">
+            <md-button ng-click="back()" aria-label="Back">Back</md-button>
+            <md-button class="md-warn" ng-click="cancel()" aria-label="Cancel">Cancel</md-button>
+            <md-button class="md-primary md-raised" type="submit" form="fillResourceForm" aria-label="Finish">Finish</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "dist",
+    "headers": [
+      {
+        "source": "/*",
+        "headers": [{"key": "Link", "value": "lib.min.js;rel=preload;as=script,app.min.css;rel=preload;as=style,app.min.js;rel=preload;as=script"}]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "ignore": [
+        "dist/reports/**"
+    ]
+  }
+}

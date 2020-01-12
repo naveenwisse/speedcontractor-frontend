@@ -1,0 +1,70 @@
+<md-dialog class="pp-dialog--rate-user" aria-label="Rate User">
+    <form name="dialogForm" ng-submit="submit()" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">
+                            Rate {{resourceUserName}}
+                        </span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <div layout="row" layout="column" layout-align="space-around" ng-if="loading">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <md-tabs
+                md-no-ink-bar
+                md-no-pagination
+                md-no-select-click
+                md-dynamic-height
+                md-selected="currentQuestionIndex"
+                pp-expose-controller="mdTabs as $tabsCtrl"
+                >
+                <md-tab ng-repeat="question in questions" label="{{$index}}">
+                    <md-content>
+                        <p class="rate-user__question">{{question.question}}</p>
+                        <md-radio-group
+                            class="rate-user__answers"
+                            ng-model="formData.answers[$index]"
+                            ng-change="advance(1, true)"
+                            md-no-ink="true"
+                            >
+                            <md-radio-button value="10" class="md-primary">{{question.answers[2]}}</md-radio-button> <br>
+                            <md-radio-button value="5" class="md-primary"> {{question.answers[1]}} </md-radio-button> <br>
+                            <md-radio-button value="1" class="md-primary">{{question.answers[0]}}</md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" ng-if="!loading">
+            <input type="hidden" name="allQuestionsAnswered">
+            <md-button class="md-icon-button md-no-focus" ng-click="advance(-1)">
+                <md-icon>chevron_left</md-icon>
+            </md-button>
+            <div class="rate-user__q-of-q" flex>
+                Question {{currentQuestionIndex+1}} of {{questions.length}}
+            </div>
+            <md-button
+                class="md-icon-button md-no-focus"
+                ng-click="advance(1)"
+                >
+                <md-icon>chevron_right</md-icon>
+            </md-button>
+            <md-button
+                type="submit"
+                class="md-raised md-primary"
+                ng-disabled="dialogForm.$invalid"
+                >
+                Submit
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,48 @@
+<md-dialog class="pp-dialog" aria-label="Edit Profile">
+    <form name="editProfileForm" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Edit profile</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <md-checkbox class="md-primary" ng-model="editPassword.enable" aria-label="Password Change">
+                <span>Change Password</span>
+            </md-checkbox>
+            <!-- Password -->
+            <div ng-if="editPassword.enable">
+                <md-input-container ng-disabled="" class="md-block">
+                    <label>New Password</label>
+                    <input class="md-primary" ng-model="editProfile.password" ng-minlength="4" ng-maxlength="14" password-check type="password" name="editPassword" autocomplete="off" />
+                    <div ng-if="regForm.$submitted" ng-messages="regForm.password.$error">
+                        <div ng-message="minlength, maxlength">Password must be between 4 and 14 characters.</div>
+                        <div ng-message="passwordCheck">Password must contain at least 1 letter and 1 number, and be between 4-14 characters</div>
+                    </div>
+                </md-input-container>
+                <!-- Confirm Password -->
+                <md-input-container class="md-block">
+                    <label>Confirm New Password</label>
+                    <input class="md-primary" ng-model="editProfile.newPasswordConfirm" ng-maxlength="25" type="password" name="newPasswordConfirm" autocomplete="off" must-match="{{editProfile.password}}" required />
+                    <div ng-if="regForm.$submitted" ng-messages="regForm.passwordConfirm.$error">
+                        <div ng-message="required">Password Confirmation is required.</div>
+                        <div ng-message="mustMatch">Password and confirmation must match.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button class="md-primary md-raised" ng-click="answer('not useful')">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

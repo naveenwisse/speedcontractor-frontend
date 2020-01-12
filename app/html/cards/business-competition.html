@@ -1,0 +1,111 @@
+<md-card-header>
+    <md-card-header-text layout-align="start start">
+        <div ng-if="competition.ended && !competition.finalized" class="pp-chip-warn"><i class="pp-chip-icon material-icons">error_outline</i> Not Finalized</div>
+        <span class="md-title">{{competition.title}}</span>
+        <span class="md-subhead">{{ competition.startsAt | date : 'MMM d, y h:mm a'}} - {{ competition.endsAt | date : 'MMM d, y h:mm a'}}</span>
+    </md-card-header-text>
+</md-card-header>
+<md-divider ng-if="isMyCompetition && !competition.finalized"></md-divider>
+<md-card-actions ng-if="isMyCompetition && !competition.finalized" layout="row" layout-align="end">
+    <md-button ng-if="!competition.cutOff" class="md-warn" ng-click="deleteCompetition($event)">
+        <span>Cancel Competition</span>
+    </md-button>
+    <md-button ng-if="!competition.ended" class="md-primary" ng-click="openAddProducts($event)">
+        <span>Add/Remove Products</span>
+    </md-button>
+    <md-button ng-if="isMyCompetition && competition.ended" class="md-primary" ng-click="finalizeCompetition()">
+        <span>Finalize Competition</span>
+    </md-button>
+</md-card-actions>
+<md-divider></md-divider>
+<md-card-content>
+    <p>{{ competition.description }}</p>
+    <div class="carousel" ng-if="competition.products.length">
+        <ul class="carousel-list" rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered rn-carousel-controls rn-swipe-disabled="true">
+            <li class="upload-preview" ng-repeat="product in competition.products">
+                <md-button ng-if="isCompetitionUser && $auth.authenticated" ng-click="openReviewProduct($event, product)" class="md-button md-primary review write-review">
+                    Write Review
+                </md-button>
+                <md-button ng-if="isUser" ng-click="openViewProductReviews($event, product, competition.reviews, competition._id)" class="md-button md-primary review">
+                    View Reviews
+                </md-button>
+                <img class="thumb" ng-src="{{product.image.path}}" alt="{{product.image.name}}">
+                <p class="pp-bold">{{product.name || '&nbsp;'}} {{product.rating | number:1}}/10</p>
+                <p>{{product.description || '&nbsp;'}}</p>
+            </li>
+        </ul>
+        <div ng-if="competition.products.length > 1" rn-carousel-indicators slides="competition.products" rn-carousel-index="carouselIndex"></div>
+    </div>
+    <md-divider class="pp-margin-y" ng-if="competition.products.length"></md-divider>
+    <div class="competitor" ng-repeat="competitor in competitors track by $index">
+        <md-card-header>
+            <md-card-avatar>
+                <img class="feed-avatar md-user-avatar" ng-src="{{competitor.business.image}}" />
+            </md-card-avatar>
+            <md-card-header-text>
+                <a class="pp-link" ng-href="{{ competitor.business.slug }}">{{competitor.business.companyName}}</a>
+                <span class="md-subhead" ng-if="competitor.status === 'pending'">Pending Acceptance</span>
+                <span class="md-subhead" ng-if="competitor.status === 'accepted'">Accepted</span>
+                <span class="md-subhead" ng-if="competitor.status === 'declined'">Declined</span>
+            </md-card-header-text>
+            <form ng-if="isUser && !competition.finalized" class="score-form" layout="row" layout-align="space-between center" ng-submit="updateCompetitorScore(scoreForm, competitor)" name="scoreForm" novalidate>
+                <!-- Score -->
+                <md-input-container class="score-input-container">
+                    <label>Score</label>
+                    <input class="md-primary" type="text" name="score" ng-model="competitor.score" required />
+                    <div ng-if="(scoreForm.score.$dirty && scoreForm.score.$invalid) || scoreForm.$submitted" ng-messages="scoreForm.score.$error">
+                        <div ng-message="required">Score is required.</div>
+                    </div>
+                </md-input-container>
+                <md-button type="submit">Update</md-button>
+            </form>
+            <p ng-if="!isUser">Score: {{competitor.score}}</p>
+        </md-card-header>
+        <div class="employee-container" ng-if="competitor.business.employees.length">
+            <div layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start">
+                    <span class="md-subtitle competing-title">Competing Employees</span>
+                    <md-button ng-if="competitor.isAdmin" class="md-primary" ng-click="openAddCompetingEmployees($event, competitor, $index)">
+                        <span>Add/Remove</span>
+                    </md-button>
+                </div>
+                <div layout="row" layout-align="space-between center">
+                    <span class="sort-by-text">Sort By:&nbsp;</span>
+                    <md-select class="sort-by-select" ng-model="sortBy" placeholder="Sort By" required md-no-asterisk="true">
+                        <md-option value="user.name">Name</md-option>
+                        <md-option value="-score">Score</md-option>
+                    </md-select>
+                </div>
+            </div>
+            <md-list>
+                <p ng-if="!competitor.competingEmployees.length">No employees added</p>
+                <md-list-item class="pp-margin-none" ng-repeat="employeeCompetitor in competitor.competingEmployees | orderBy:sortBy ">
+                    <div class="employee-list-item-container" layout="row" layout-align="space-between center">
+                        <div layout="row" layout-align="space-between center">
+                            <div class="add-products-thumb-container">
+                                <img class="add-products-thumb" ng-src="{{ employeeCompetitor.user.image }}">
+                            </div>
+                            <div class="pp-multi-line pp-padding pp-width-full">
+                                {{ employeeCompetitor.user.name }}
+                            </div>
+                        </div>
+                        <form ng-if="competitor.isAdmin && !competition.finalized" layout="row" layout-align="space-between center" ng-submit="updateEmployeeCompetitorScore(employeeScoreForm, employeeCompetitor, score)" name="employeeScoreForm" novalidate>
+                            <!-- Score -->
+                            <md-input-container class="score-input-container">
+                                <label>Score</label>
+                                <input class="md-primary" type="text" name="score" ng-init="score = employeeCompetitor.score" ng-model="score" required />
+                                <div ng-if="(employeeScoreForm.score.$dirty && employeeScoreForm.score.$invalid) || employeeScoreForm.$submitted" ng-messages="employeeScoreForm.score.$error">
+                                    <div ng-message="required">Score is required.</div>
+                                </div>
+                            </md-input-container>
+                            <md-button type="submit">Update</md-button>
+                        </form>
+                        <p ng-if="!competitor.isAdmin">Score: {{employeeCompetitor.score}}</p>
+                    </div>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+        </div>
+        <md-divider class="pp-margin-y" ng-if="!$last"></md-divider>
+    </div>
+</md-card-content>

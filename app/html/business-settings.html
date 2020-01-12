@@ -1,0 +1,90 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button class="md-primary pp-margin-none" ui-sref="business.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Settings</span>
+</div>
+<md-card ng-if="isUser">
+    <md-card-header>
+        <div class="md-title">Billing Information</div>
+    </md-card-header>
+    <md-card-content>
+        <stripe-account account-type="Business" account-holder="{{user._id}}">
+            <stripe-payment-method></stripe-payment-method>
+        </stripe-account>
+    </md-card-content>
+</md-card>
+<md-card ng-if="isUser">
+    <md-card-content>
+        <p class="md-subhead">Add Administrator</p>
+        <form
+            name="addAdminForm"
+            ng-submit="add(addAdminForm)"
+            layout-sm="column"
+            layout-align-sm="space-around stretch"
+            layout-gt-sm="row"
+            layout-align-gt-sm="center center"
+            novalidate
+            >
+            <!-- User Autocomplete -->
+            <md-autocomplete
+                flex
+                required
+                md-no-cache
+                md-require-match
+                md-select-on-match
+                md-min-length="3"
+                md-input-name="user"
+                md-delay="500"
+                md-selected-item="addAdminFormData.user"
+                md-search-text="addAdminFormData.searchText"
+                md-search-text-change="searchTextChange(addAdminFormData.searchText)"
+                md-items="item in querySearch(addAdminFormData.searchText)"
+                md-item-text="item.name"
+                md-floating-label="Select User"
+                >
+                <md-item-template>
+                    <div class="auto-item">
+                        <img class="auto-avatar-img" ng-src="{{item.image}}">
+                        <div class="auto-meta">
+                            <div class="auto-cell">
+                                <span class="auto-name" md-highlight-text="addAdminFormData.searchText"> {{item.name}} </span>
+                            </div>
+                        </div>
+                    </div>
+                </md-item-template>
+                <md-not-found>
+                    No users matching "{{addAdminFormData.searchText}}" were found.
+                </md-not-found>
+                <div ng-messages="addAdminForm.user.$error" ng-if="addAdminForm.user.$touched">
+                    <div ng-message="required">You <b>must</b> select a user.</div>
+                </div>
+            </md-autocomplete>
+            <md-button flex-sm class="md-primary md-raised" ng-disabled="addAdminForm.$invalid" type="submit">Add</md-button>
+        </form>
+        <p class="md-subhead">Remove Administrator</p>
+        <form
+            name="removeAdminForm"
+            ng-submit="remove(removeAdminForm)"
+            layout-sm="column"
+            layout-align-sm="space-around stretch"
+            layout-gt-sm="row"
+            layout-align-gt-sm="center center"
+            novalidate
+            >
+            <!-- User Select -->
+            <md-input-container flex class="md-block">
+                <label>Select User</label>
+                <md-select ng-model="removeAdminFormData.user" name="user" required>
+                    <md-option ng-repeat="item in user.usersAdmin" ng-value="item">
+                        {{item.name}}
+                    </md-option>
+                </md-select>
+                <div ng-if="(removeAdminForm.user.$dirty && removeAdminForm.user.$invalid) || removeAdminForm.$submitted" ng-messages="removeAdminForm.user.$error">
+                    <div ng-message="required">You <b>must</b> select a user.</div>
+                </div>
+            </md-input-container>
+            <md-button flex-sm class="md-primary md-raised" ng-disabled="removeAdminForm.$invalid" type="submit">Remove</md-button>
+        </form>
+    </md-card-content>
+</md-card>

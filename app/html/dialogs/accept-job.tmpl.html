@@ -1,0 +1,69 @@
+<md-dialog class="pp-dialog" aria-label="{{resource.title}}">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">{{resource.title}}</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </div>
+    <md-divider></md-divider>
+    <md-dialog-content>
+        <a
+            class="pp-link"
+            layout="row"
+            layout-align="start center"
+            ng-href="{{ resource.business.slug }}"
+            ng-click="cancel()"
+            >
+            <img
+                class="pp-user-avatar"
+                ng-src="{{resource.business.image}}"
+                class="feed-avatar md-user-avatar"
+                alt="{{resource.business.companyName}}"
+                >
+            <div class="pp-margin-left">
+                {{ resource.business.companyName }}
+            </div>
+        </a>
+        <br>
+        <div><strong>From:</strong> <span class="span_space_tag">{{resource.startTime | date : 'medium'}}</span></div>
+        <div><strong>To:</strong> <span class="span_space_tag">{{ resource.endTime | date : 'medium'}}</span></div>
+        <div>
+            <strong>Location:</strong> <br>
+            {{ resource.formattedAddress }}
+        </div>
+        <div><strong>Compensation:</strong> <span class="span_space_tag">{{ resource.compensation | currency:"$":2 }}</span></div>
+        <div><strong>Attire to bring:</strong> <span class="span_space_tag">{{ resource.attire}}</span></div>
+        <div><strong>Business provided attire:</strong><span class="span_space_tag"> {{ resource.busAttire}}</span></div>
+        <div><strong>Additional information:</strong><span class="span_space_tag"> {{ resource.additional}}</span></div>
+        <div style="color:red"><span ng-if="showText == true">You have scheduled a shift that is within 3 hours of your next shift.<br>You should consider preparation and travel time before accepting this event.</span></div>
+    </md-dialog-content>
+    <md-dialog-content ng-if="conflictingResources.length">
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-subtitle">Conflicting requests</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-list>
+            <md-list-item class="md-3-line md-long-text" ng-repeat="job in conflictingResources track by $index">
+                <img class="profile-businesses-thumb" ng-src="{{ job.business.image }}">
+                <div class="pp-multi-line pp-width-full pp-padding">
+                    <div class="pp-primary pp-bold"><span ng-if="job.modelType!='TASTING'">{{job.event.title}} -</span> {{job.title}}</div>
+                    <small>{{job.business.companyName}}</small>
+                    <br>
+                    <small>{{job.formattedAddress}}</small>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="cancel()">Cancel</md-button>
+        <md-button class="md-warn" ng-click="decline()">Decline</md-button>
+        <md-button class="md-primary md-raised" ng-click="accept()">Accept</md-button>
+    </md-dialog-actions>
+</md-dialog>

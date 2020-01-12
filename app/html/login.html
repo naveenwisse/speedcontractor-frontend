@@ -1,0 +1,39 @@
+<div class="login-view-panel" layout="row" layout-align="center center" layout-margin>
+    <div class="login-view-card" layout="column" flex="100">
+        <span class="md-headline text-center" layout-padding>Log in to Speed Contractor</span>
+        <md-card class="pp-padding-top">
+            <md-card-content layout-padding>
+                <facebook-button type="login"></facebook-button>
+                <div class="hr-with-label">
+                    <div class="hr-with-label__label">or</div>
+                </div>
+                <form shake-that fake-action name="loginForm" autocomplete="off" novalidate submit="login.login(loginForm)">
+                    <div ng-if="login.loginError">
+                        <md-subheader class="md-warn">{{login.loginErrorText}}</md-subheader>
+                    </div>
+                    <div layout-margin>
+                        <md-input-container class="md-block">
+                            <label>Email</label>
+                            <input autofocus type="email" name="email" required ng-model="login.email">
+                            <div ng-if="loginForm.$submitted" ng-messages="loginForm.email.$error">
+                                <div ng-message="required">Email is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-block">
+                            <label>Password</label>
+                            <input type="password" name="password" required ng-model="login.password" password-check>
+                            <div ng-if="loginForm.$submitted" ng-messages="loginForm.password.$error">
+                                <div ng-message="required">Password is required.</div>
+                                <div ng-message="passwordCheck">Password must contain at least 1 letter and 1 number, and be between 4-14 characters</div>
+                            </div>
+                        </md-input-container>
+                        <div layout="row">
+                            <input value="Login" class="md-raised md-primary md-button" type="submit">
+                            <md-button ui-sref="reset">Forgot Password?</md-button>
+                        </div>
+                    </div>
+                </form>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

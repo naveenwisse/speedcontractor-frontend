@@ -1,0 +1,73 @@
+<md-card-header>
+    <md-card-header-text>
+        <span class="md-title">{{tasting.title}}</span>
+        <span class="md-subhead">{{ tasting.startTime | date : 'MMM d, y h:mm a'}} - {{ tasting.endTime | date : 'MMM d, y h:mm a'}}</span>
+    </md-card-header-text>
+</md-card-header>
+<md-divider></md-divider>
+<md-card-content>
+    <p class="pp-margin-x">
+        <span ng-if="tasting.code"><strong>Check-in Code:</strong> {{tasting.code}}<br></span>
+        <strong>Description:</strong>
+        <br>{{ tasting.description }}
+        <br><strong>Capacity:</strong>
+        <br>{{ tasting.capacity }}
+        <br><strong>Location:</strong>
+        <br>{{ tasting.formattedAddress }}
+        <br><strong>Type:</strong>
+        <br>{{ typeText }}
+    </p>
+    <p class="pp-pill" ng-class="{'pp-pill--yellow':!tasting.accepted&&!tasting.declined,'pp-pill--green':tasting.accepted,'pp-pill--red':tasting.declined}">
+        <span ng-if="!tasting.accepted && !tasting.declined">Pending Acceptance <i class="material-icons">indeterminate_check_box</i></span>
+        <span ng-if="tasting.accepted">Accepted <i class="material-icons">check_box</i></span>
+        <span ng-if="tasting.declined">Declined <i class="material-icons">check_box_outline_blank</i></span>
+    </p>
+    <div class="carousel" ng-if="tasting.products.length">
+        <ul class="carousel-list" rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered rn-carousel-controls rn-swipe-disabled="true">
+            <li class="upload-preview" ng-repeat="product in tasting.products">
+                <md-button ng-if="isTastingUser && checkedIn" ng-click="openReviewProduct($event, product)" class="md-button md-primary review write-review">
+                    Write Review
+                </md-button>
+                <md-button ng-if="isUser" ng-click="openViewProductReviews($event, product, tasting.reviews, tasting._id)" class="md-button md-primary review">
+                    View Reviews
+                </md-button>
+                <img class="thumb" ng-src="{{product.image.path}}" alt="{{product.image.name}}">
+                <p class="pp-bold">{{product.name || '&nbsp;'}} {{product.rating | number:1}}/10</p>
+            </li>
+        </ul>
+        <div ng-if="tasting.products.length > 1" rn-carousel-indicators slides="tasting.products" rn-carousel-index="carouselIndex"></div>
+    </div>
+    <div ng-if="$auth.authenticated && checkInLoaded && isTastingUser" layout="column" layout-margin>
+        <md-divider></md-divider>
+        <p ng-if="!atLocation && !checkedIn">You must be at the location to check in</p>
+        <form name="checkInForm">
+            <!-- Check In Code -->
+            <md-input-container ng-if="!checkedIn">
+                <label>Check-in Code</label>
+                <input class="md-primary" ng-model="checkInFormData.code" type="text" name="code" ng-disabled="checkedIn || !atLocation" required />
+                <div ng-if="checkInForm.$submitted" ng-messages="checkInForm.schoolName.$error">
+                    <div ng-message="required">Check-in code is required to check in.</div>
+                </div>
+            </md-input-container>
+            <md-button class="md-primary md-raised" ng-click="checkIn(checkInForm)" ng-disabled="checkedIn || !atLocation">Check<span ng-if="checkedIn">ed</span> In</md-button>
+        </form>
+    </div>
+    <div ng-if="tasting.reschedule.length && isUser" layout="column" layout-margin>
+        <md-divider></md-divider>
+        <md-button class="md-warn md-raised" ng-click="acceptReschedule($event, tasting)">Reschedule Requested</md-button>
+    </div>
+</md-card-content>
+<md-card-actions ng-if="isUser" layout="row" layout-align="end">
+    <md-button class="md-primary" ng-click="openAddCheckIn()">
+        <span>Manual check-in</span>
+    </md-button>
+    <md-button class="md-warn" ng-click="deleteTasting($event, tasting)">
+        <span>Cancel Tasting</span>
+    </md-button>
+    <md-button class="md-primary" ng-click="openAddProducts()">
+        <span>Add/Remove Products</span>
+    </md-button>
+    <!-- <md-button class="md-primary" ng-click="event.openEditTasting($event)">
+        Edit Tasting
+    </md-button> -->
+</md-card-actions>

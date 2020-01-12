@@ -1,0 +1,28 @@
+<md-dialog class="pp-dialog" aria-label="Reasons">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-subhead">Why do you want suspend ?</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="rsc.cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+
+      <!-- Reasons -->
+      <md-input-container class="md-block">
+          <label>This reasons will be sent to the by email</label>
+          <textarea rows="4" cols="50" placeholder="You can suspend the  with this field empty" class="md-primary" ng-model="rsc.reasons" type="text" name="reasons"></textarea>
+      </md-input-container>
+
+        <div layout="row">
+          <md-button class="md-primary md-raised" ng-click="rsc.accept()">Suspend</md-button>
+          <md-button ng-click="rsc.cancel()">Cancel</md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>

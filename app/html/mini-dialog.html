@@ -1,0 +1,12 @@
+<div class="mini-dialog" ng-class="{open:service.show}">
+    <div class="mini-dialog__mask" layout="row" layout-align="center center" ng-click="service.cancel()">
+        <div class="mini-dialog__content" ng-click="$event.stopPropagation()">
+            <h3>{{service.title}}</h3>
+            <p>{{service.message}}</p>
+            <div class="mini-dialog__btn-container">
+                <md-button class="md-primary md-raised" ng-click="service.accept()" aria-label="{{service.okButtonText || 'Accept'}}">{{service.okButtonText || 'Accept'}}</md-button>
+                <md-button ng-click="service.cancel()" aria-label="{{service.cancelButtonText || 'Cancel'}}">{{service.cancelButtonText || 'Cancel'}}</md-button>
+            </div>
+        </div>
+    </div>
+</div>

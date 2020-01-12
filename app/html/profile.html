@@ -1,0 +1,37 @@
+<div class="profile-container" layout-sm="column" layout-gt-sm="row" layout-fill>
+    <div flex layout="column">
+        <!-- Left Sidebar -->
+        <md-card ng-include="'cards/profile-user.html'"></md-card>
+        <!-- Events moved to top of list if mobile view -->
+        <md-card hide-gt-sm ng-if="user.competitions.length" ng-include="'cards/profile-competitions.html'"></md-card>
+        <md-card hide-gt-sm ng-if="user.tastings.length" ng-include="'cards/profile-tastings.html'"></md-card>
+        <md-card hide-gt-sm ng-if="user.events.length" ng-include="'cards/profile-events.html'"></md-card>
+        <md-card ng-class="{'md-warn-border': !user.address1}" ng-include="'cards/profile-address.html'"></md-card>
+        <md-card ng-class="{'md-warn-border': !user.mobilePhone}" ng-include="'cards/profile-phone.html'"></md-card>
+        <md-card hide-gt-sm ng-if="showAds" ng-include="'cards/profile-dart.html'"></md-card>
+        <md-card ng-include="'cards/profile-experience.html'"></md-card>
+        <md-card ng-include="'cards/profile-certificate.html'"></md-card>
+        <md-card ng-include="'cards/profile-education.html'"></md-card>
+        <md-card ng-include="'cards/profile-skills.html'"></md-card>
+        <md-card ng-include="'cards/profile-business-reviews.html'"></md-card>
+    </div>
+    <ui-view flex-gt-sm="50" flex-sm="auto" layout="column"></ui-view>
+    <div flex layout="column">
+        <!-- Right Sidebar -->
+        <!-- Events moved to right sidebar if desktop view -->
+        <!-- <md-card ng-if="user.pendingCompetitions.length" ng-include="'cards/profile-pending-competition.html'"></md-card>
+        <md-card ng-if="user.pendingResources.length" ng-include="'cards/profile-requests.html'"></md-card>
+        <md-card ng-if="user.reviewProducts.length" ng-include="'cards/profile-pending-review.html'"></md-card>
+        <md-card hide show-gt-sm ng-if="user.competitions.length" ng-include="'cards/profile-competitions.html'"></md-card>
+        <md-card hide show-gt-sm ng-if="user.publicTasting.length" ng-include="'cards/profile-tastings.html'"></md-card>
+        <md-card hide show-gt-sm ng-if="user.privateTasting.length" ng-include="'cards/profile-private-tastings.html'"></md-card>
+        <md-card hide show-gt-sm ng-if="user.events.length" ng-include="'cards/profile-events.html'"></md-card> -->
+        <md-card ng-include="'cards/profile-overall-rating.html'"></md-card>
+        <md-card ng-include="'cards/go-to-map.html'"></md-card>
+        <md-card hide show-gt-sm ng-if="showAds" ng-include="'cards/profile-dart.html'"></md-card>
+        <!-- <md-card ng-if="user.myReviews.length" ng-include="'cards/profile-my-reviews.html'"></md-card> -->
+        <md-card ng-include="'cards/profile-create-business.html'"></md-card>
+        <md-card ng-include="'cards/profile-invite.html'"></md-card>
+        <md-card ng-include="'cards/user-rate-businesss.html'"></md-card>
+    </div>
+</div>

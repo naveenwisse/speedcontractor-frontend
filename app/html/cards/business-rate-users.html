@@ -1,0 +1,21 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Users to rate</span>
+        <span class="pp-badge dark round">{{filterRateResources.length}}</span>
+    </div>
+</div>
+<md-divider></md-divider>
+<md-card-content class="pp-padding-none">
+    <md-list class="rate-users-list">
+        <md-list-item class="pp-margin-none" ng-click="rateUser(resource._id, $event)" ng-repeat="resource in filterRateResources track by $index" >
+            <img class="profile-businesses-thumb md-avatar" ng-src="{{ resource.filled.image }}">
+            <div class="md-list-item-text" layout="column">
+                <h4 class="pp-margin-none"><span class="pp-primary">{{ resource.filled.name }}</span></h4>
+                <span>{{ resource.title }}</span>
+                <small>Start: {{resource.startTime | date : 'MMM d, y h:mm a'}}</small>
+                <small>End: {{resource.endTime | date : 'MMM d, y h:mm a'}}</small>
+                <small>{{resource.formattedAddress}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

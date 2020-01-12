@@ -1,0 +1,93 @@
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: auto !important;
+    letter-spacing: 0 !important;
+    background: #f1f3f5;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+    background-color: #f1f3f5;
+}
+
+footer {
+    background-color: @dark-grey;
+    color: #fff;
+    text-align: center;
+    .footer {
+        background-color: @dark-grey;
+    }
+}
+
+.progress-bar-success {
+    background-color: @main-green;
+}
+
+ui-view {
+    display: block;
+}
+
+main > ui-view {
+    padding-top: 65px;
+}
+
+.view-container {
+    margin-top: 15px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.fade {
+    opacity: 1;
+}
+
+.fade.ng-enter,
+.fade.ng-leave {
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.fade.ng-enter {
+    opacity: 0;
+}
+
+.fade.ng-enter-active {
+    opacity: 1;
+}
+
+.fade.ng-leave {
+    opacity: 1;
+}
+
+.fade.ng-leave-active {
+    opacity: 0;
+}
+
+.sponsored {
+    width: 100%;
+}
+
+.forgot {
+    margin-left: 20px;
+}
+
+i.back {
+    vertical-align: middle;
+}

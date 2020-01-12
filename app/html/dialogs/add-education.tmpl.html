@@ -1,0 +1,98 @@
+<md-dialog class="pp-dialog" aria-label="Education Dialog">
+    <!-- ADD EDUCATION -->
+    <form name="addEducationForm" ng-submit="submitDialog(addEducationForm)" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Education</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <!-- School/Course Name -->
+            <md-input-container class="md-block">
+                <label>School/Educator Name</label>
+                <input class="md-primary" ng-model="dialogFormData.schoolName" ng-maxlength="100" type="text" autofocus name="schoolName" required />
+                <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.schoolName.$error">
+                    <div ng-message="required">School Name required.</div>
+                    <div ng-message="minlength, maxlength">Must be between 1 and 100 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- Course/Major -->
+            <md-input-container class="md-block">
+                <label>Course/Major</label>
+                <input class="md-primary" ng-model="dialogFormData.studied" ng-maxlength="100" type="text" name="studied" required />
+                <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.studied.$error">
+                    <div ng-message="required">Course/Major studied required.</div>
+                    <div ng-message="minlength, maxlength">Must be between 1 and 100 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- Date Attended -->
+            <div layout="flex">
+                <!-- Start Date -->
+                <md-input-container flex>
+                    <label>Start Year</label>
+                    <year-select ng-model="dialogFormData.startDate" name="startDate" required></year-select>
+                    <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.startDate.$error">
+                        <div ng-message="required">Start Year required.</div>
+                    </div>
+                </md-input-container>
+                <!-- End Date -->
+                <md-input-container flex>
+                    <label>End Year</label>
+                    <year-select ng-model="dialogFormData.endDate" name="endDate" min-year="dialogFormData.startDate" ng-disabled="!dialogFormData.startDate" allow-current="true" required>
+                    </year-select>
+                    <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.endDate.$error">
+                        <div ng-message="required">End Year required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <!-- City -->
+            <md-input-container class="md-block">
+                <label>City</label>
+                <input class="md-primary" ng-model="dialogFormData.city" ng-maxlength="50" type="text" name="city" required />
+                <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.city.$error">
+                    <div ng-message="required">City name is required.</div>
+                    <div ng-message="minlength, maxlength">City Name must be between 1 and 50 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- State -->
+            <md-input-container class="md-block">
+                <label>State</label>
+                <md-select name="regionId" ng-model="dialogFormData.state" required>
+                    <md-option ng-repeat="state in data.states" value="{{state.name}}">{{state.name}}</md-option>
+                </md-select>
+                <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.regionId.$error">
+                    <div ng-message="required">State selection is required.</div>
+                </div>
+            </md-input-container>
+            <!-- Degree/Certification Type -->
+            <md-input-container class="md-block">
+                <label>Degree/Certification Type</label>
+                <input class="md-primary" ng-model="dialogFormData.courseCompleted" ng-maxlength="50" type="text" name="courseCompleted" />
+                <div ng-if="addEducationForm.$submitted" ng-messages="addEducationForm.courseCompleted.$error">
+                    <div ng-message="minlength, maxlength">Degree/Certification type must be between 1 and 50 characters.</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <div ng-if="dialogForm.$submitted" ng-messages="dialogForm.$error">
+                <div ng-message="required">
+                    <md-icon class="material-icons md-warn">error</md-icon>
+                    <span class="pp-padding-left">Please complete all required fields.</span>
+                </div>
+            </div>
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button type="submit" class="md-primary md-raised">
+                <span ng-if="!editMode">Add</span>
+                <span ng-if="editMode">Save</span>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

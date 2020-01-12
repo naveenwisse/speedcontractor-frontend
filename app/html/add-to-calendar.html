@@ -1,0 +1,10 @@
+<md-input-container class="add-to-calendar">
+    <label>Add to calendar</label>
+    <md-select ng-model="calendar">
+        <md-option ng-click="calendarUrl.dlIcal()" ng-if="calendarUrl.dlIcal" value="iCalendar">iCalendar</md-option>
+        <md-option ng-click="go(calendarUrl.google)" value="Google Calendar">Google Calendar</md-option>
+        <md-option ng-click="calendarUrl.dlIcal()" ng-if="calendarUrl.dlIcal" value="Outlook">Outlook</md-option>
+        <md-option ng-click="go(calendarUrl.yahoo)" value="Yahoo! Calendar">Yahoo! Calendar</md-option>
+        <md-option ng-click="go(calendarUrl.microsoft)" value="Microsoft Calendar">Microsoft Calendar</md-option>
+    </md-select>
+</md-input-container>

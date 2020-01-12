@@ -1,0 +1,45 @@
+<md-dialog class="pp-dialog" aria-label="{{ title }}">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">{{ title }}</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <md-input-container class="md-block">
+            <label>Video Title</label>
+            <input type="text" name="videoTitle" data-ng-model="videoTitle">
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Comment</label>
+            <input type="text" name="videoComment" data-ng-model="videoComment">
+        </md-input-container>
+        <div ngf-select ngf-drop ng-model="files" ngf-model-invalid="invalidFiles"
+        ng-model-options="{debounce:100}"
+        ngf-multiple="false" ngf-pattern="'video/*'" ngf-accept="'video/*'"
+        ngf-capture="'camera'"
+        ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', pattern:'video/*'}"
+        ngf-validate="{size: {max: '20MB', min: '10B'}}"
+        ngf-keep="false"
+        ngf-max-files="1"
+        ngf-change="upload($files)"
+        ngf-fix-orientation="true"
+        ngf-allow-dir="false" class="drop-box md-button" ngf-drop-available="dropAvailable">
+            Select Vide (Max 20MB)<span class="pp-bold" ng-show="dropAvailable">or Drag &amp; Drop Video Here</span>
+        </div>
+        <md-progress-linear md-mode="determinate" value="{{progress}}"></md-progress-linear>
+        <div class="validation-messages" style="margin:0;" ng-if="invalidFiles || errorMsg">
+            <div>{{errorMsg}}</div>
+            <div ng-repeat="f in invalidFiles">
+                <div ng-if="f.$errorMessages.minSize">Video cannot have a height over 20MB</div>
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>

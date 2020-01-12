@@ -1,0 +1,22 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Employees</span>
+        <md-button class="md-primary card-action-button" ui-sref="business.employees" aria-label="View">
+            <span>View All</span>
+        </md-button>
+    </div>
+</div>
+<md-card-content class="profile-business-card business-employees">
+    <md-list>
+        <md-list-item
+            ng-click="acceptEmployee($event, employee)"
+            ng-repeat="employee in user.employees | filter:{pending:true} track by employee._id"
+            >
+            <img class="profile-businesses-thumb" ng-src="{{ employee.user.image }}">
+            <div class="pp-multi-line">
+                <span class="pp-primary">{{ employee.user.name }}</span> <br>
+                <small>pending</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

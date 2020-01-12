@@ -1,0 +1,18 @@
+<md-dialog class="pp-dialog" aria-label="View Certificate">
+  <div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+      <md-card-header>
+        <md-card-header-text>
+          <!-- <span class="md-subhead"></span> -->
+        </md-card-header-text>
+      </md-card-header>
+      <md-button ng-click="scm.cancel()" class="md-icon-button md-secondary pp-card-close">
+        <md-icon class="material-icons">close</md-icon>
+      </md-button>
+    </div>
+    <md-divider></md-divider>
+  </div>
+  <md-dialog-content>
+    <img src="{{scm.image}}" alt="Image">
+  </md-dialog-content>
+</md-dialog>

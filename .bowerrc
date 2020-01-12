@@ -1,0 +1,7 @@
+{
+  "directory": "app/lib",
+  "save-exact": true,
+  "shallowCloneHosts": [
+    "github.com"
+  ]
+}

@@ -1,0 +1,72 @@
+<form name="form">
+    <div layout="row">
+        <!-- Start Date -->
+        <div flex layout="column">
+            <pp-datepicker
+                name="startDate"
+                ng-model="startsAt"
+                md-min-date="minDate"
+                md-placeholder="Start Date"
+                required>
+            </pp-datepicker>
+            <div
+                class="validation-messages"
+                ng-if="form.startDate.$invalid"
+                ng-messages="form.startDate.$error">
+                <div ng-message="required">Start Date is required</div>
+                <div ng-message="mindate">Cannot be before {{minDate | date : 'MMM d, y h:mm a'}}</div>
+            </div>
+        </div>
+        <!-- Start Time -->
+        <div flex>
+            <md-input-container class="md-block">
+                <label>Start Time</label>
+                <input
+                    type="text"
+                    name="startTime"
+                    ng-model="startsAt"
+                    md-timepicker
+                    readonly
+                    required>
+                <div ng-if="form.startTime.$invalid" ng-messages="form.startTime.$error">
+                    <div ng-message="required">Start Date/Time is required</div>
+                </div>
+            </md-input-container>
+        </div>
+    </div>
+    <div layout="row"  data-ng-show="showEnd">
+        <!-- End Date -->
+        <div flex layout="column">
+            <pp-datepicker
+                name="endDate"
+                ng-model="endsAt"
+                md-min-date="minDate"
+                md-placeholder="End Date"
+                required>
+            </pp-datepicker>
+            <div
+                class="validation-messages"
+                ng-if="form.endDate.$invalid"
+                ng-messages="form.endDate.$error">
+                <div ng-message="required">End Date is required.</div>
+                <div ng-message="mindate">Cannot be before {{minDate | date : 'MMM d, y h:mm a'}}</div>
+            </div>
+        </div>
+        <!-- End Time -->
+        <div flex>
+            <md-input-container class="md-block">
+                <label>End Time</label>
+                <input
+                    type="text"
+                    name="endTime"
+                    ng-model="endsAt"
+                    md-timepicker
+                    readonly
+                    required>
+                <div ng-if="form.endTime.$invalid" ng-messages="form.endTime.$error">
+                    <div ng-message="required">End Date/Time is required.</div>
+                </div>
+            </md-input-container>
+        </div>
+    </div>
+</form>

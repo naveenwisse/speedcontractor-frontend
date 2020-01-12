@@ -1,0 +1,12 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button class="md-primary pp-margin-none" ui-sref="profile.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">All events</span>
+</div>
+<md-card ng-show="!events.length">
+    <md-card-content>
+        <span class="md-subhead">You don't currently have any events.</span>
+    </md-card-content>
+</md-card>
+<md-card ng-include="'cards/profile-all-events.html'" ng-repeat="event in events track by $index"></md-card>

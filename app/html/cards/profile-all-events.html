@@ -1,0 +1,18 @@
+<md-card-header>
+    <md-card-header-text>
+        <span class="md-title">{{event.title}}</span>
+        <span class="md-subhead">
+            {{ event.startsAt | date : 'medium'}} -
+            {{ event.endsAt | date : 'medium'}}
+        </span>
+    </md-card-header-text>
+</md-card-header>
+<md-divider></md-divider>
+<md-card-content>
+    <p>{{ event.description }}</p>
+    <p>
+        <strong>Location:</strong>
+        <br>
+        {{ event.formattedAddress }}
+    </p>
+</md-card-content>

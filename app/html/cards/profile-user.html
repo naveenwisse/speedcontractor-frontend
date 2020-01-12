@@ -1,0 +1,38 @@
+<div class="panel-heading cover-image" ng-style="{'background-image': 'url('+user.coverImage +')'}">
+    <md-button
+        ng-if="isUser"
+        ng-click="showUploadModal('cover', 'profile')"
+        class="md-icon-button md-raised photo-upload"
+        aria-label="Upload Photo"
+        >
+        <i class="material-icons">photo_camera</i>
+        <md-tooltip>Edit Cover Photo</md-tooltip>
+    </md-button>
+</div>
+<md-card-content clas="pp-padding">
+    <div class="text-center">
+        <div class="profile-image-container">
+            <img class="aog" ng-src="{{ user.image }}">
+            <md-button
+                ng-if="isUser"
+                ng-click="showUploadModal('profile', 'profile')"
+                class="md-icon-button md-raised photo-upload"
+                aria-label="Upload Photo"
+                >
+                <i class="material-icons">photo_camera</i>
+                <md-tooltip>Edit Profile Photo</md-tooltip>
+            </md-button>
+        </div>
+        <div ng-if="!isUser" class="md-subtitle">{{ user.name }}</div>
+        <div ng-if="isUser" class="md-subtitle">{{ user.name || "no name" }}</div>
+        <div class="md-body-2" ng-show="user.city || user.state">
+            <span ng-if="user.city">{{user.city}}</span>
+            <span ng-if="user.city && user.state">, </span>
+            <span ng-if="user.state">{{user.state}}</span>
+        </div>
+        <md-button ng-if="isUser" ui-sref=".settings" class="md-icon-button md-secondary">
+            <md-icon class="material-icons">settings</md-icon>
+            <md-tooltip>Edit Settings</md-tooltip>
+        </md-button>
+    </div>
+</md-card-content>

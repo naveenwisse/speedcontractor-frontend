@@ -1,0 +1,13 @@
+<md-toast class="pp-toast" ng-class="{'md-error-toast' : toastType==='error'}">
+    <div class="toast-container pp-padding" layout="column" layout-gt-xs="row" layout-align="space-between center" >
+        <span class="pp-bold pp-margin" flex >{{toastLabel}}</span>
+        <div>
+            <md-button ng-if="toastType === 'confirmation'" class="md-primary pp-bold" ng-click="resend()">
+                <span>Resend Confirmation</span>
+            </md-button>
+            <md-button class="md-primary pp-bold" ng-click="closeToast()">
+                <span>Close</span>
+            </md-button>
+        </div>
+    </div>
+</md-toast>

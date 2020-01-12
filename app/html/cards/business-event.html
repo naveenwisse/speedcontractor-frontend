@@ -1,0 +1,65 @@
+<md-card-header>
+    <md-card-header-text>
+        <span class="md-title">{{event.event.title}}</span>
+        <span class="md-subhead">{{ event.event.startsAt | date : 'MMM d, y h:mm a'}} - {{ event.event.endsAt | date : 'MMM d, y h:mm a'}}</span>
+        <span ng-if="event.event.cutOff"><small class="md-warn">The deadline has passed to delete this event</small></span>
+    </md-card-header-text>
+</md-card-header>
+<md-divider></md-divider>
+<md-card-content>
+    <p>{{ event.event.description }}</p>
+    <p>
+        <strong>Location:</strong> <br>
+        {{event.event.formattedAddress}}
+    </p>
+    <ul class="event-resource-list pp-list-unstyled">
+        <li ng-repeat="resource in event.event.resources track by $index">
+            <div
+                layout="column"
+                class="pp-pill pp-margin-none"
+                ng-class="{'pp-pill--green':resource.accepted,'pp-pill--red':resource.unfilled && resource.invitedUsers.length<5, 'pp-pill--yellow':!resource.accepted && (!resource.unfilled || resource.invitedUsers.length==5),}"
+                >
+                <span ng-if="!resource.accepted && !resource.unfilled">
+                    Pending Acceptance: {{ resource.type }}
+                    <i class="material-icons">indeterminate_check_box</i>
+                </span>
+                <span ng-if="resource.accepted">Accepted: {{ resource.type }} <i class="material-icons">check_box</i></span>
+                <span ng-if="resource.accepted">Compensasion: {{ resource.compensation }} </span>
+                <span ng-if="resource.unfilled">
+                    Unfilled Resource: {{ resource.type }}
+                    <i ng-click="show=!show" ng-if="resource.invitedUsers.length==0" class="material-icons">
+                    check_box_outline_blank<md-tooltip>No Users Selected</md-tooltip></i>
+                    <i ng-click="show=!show" ng-if="resource.invitedUsers.length>0 && resource.invitedUsers.length<5" class="material-icons">
+                    indeterminate_check_box<md-tooltip>Less Than Five Users  Selected</md-tooltip></i>
+                    <i ng-click="show=!show" ng-if="resource.invitedUsers.length==5" class="material-icons">indeterminate_check_box<md-tooltip>Five Selected Users</md-tooltip></i>
+                    <div ng-show='show'>
+                        <ul>
+                            <li ng-repeat="invitedUser in resource.invitedUsers track by $index">
+                                {{ invitedUser.name }} - <span class="pp-bold">{{ invitedUser.overallSkill | number:2 }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+                <a ng-if="resource.filled" class="pp-link" href="{{ resource.filled.slug }}">{{ resource.filled.name }}</a>
+            </div>
+        </li>
+    </ul>
+<!--     <add-to-calendar
+        start-date="{{event.event.startsAt}}"
+        end-date="{{event.event.endsAt}}"
+        title="{{event.event.title}}"
+        location="{{event.event.formattedAddress}}"
+        description="{{event.event.description}}">
+    </add-to-calendar> -->
+</md-card-content>
+<md-card-actions ng-if="isUser" layout="row" layout-align="end">
+    <md-button ng-if="!event.event.cutOff" class="md-warn" ng-click="event.deleteEvent($event)">
+        Cancel Event
+    </md-button>
+    <md-button class="md-primary" ng-click="event.openAddResources($event)">
+        {{ event.event.resources.length ? 'Edit Shifts' : 'Add Shifts' }}
+    </md-button>
+    <md-button class="md-primary" ng-click="event.openEditEvent($event)">
+        Edit Event
+    </md-button>
+</md-card-actions>

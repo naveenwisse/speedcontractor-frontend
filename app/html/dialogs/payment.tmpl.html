@@ -1,0 +1,25 @@
+<md-dialog class="pp-dialog" aria-label="Payment Info">
+    <form id="checkout" name="dialogForm" ng-submit="payButtonClicked()" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Payment info</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">settings</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <div id="dropin-container"></div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button type="submit" class="md-primary md-raised">
+                Pay
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

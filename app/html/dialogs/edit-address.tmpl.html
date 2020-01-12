@@ -1,0 +1,70 @@
+<md-dialog class="pp-dialog" aria-label="Edit Profile" autocomplete="off">
+    <form name="businessForm" ng-submit="submit(businessForm)" novalidate>
+        <div class="pp-card-toolbar">
+            <div class="pp-card-tools" layout="row" layout-align="space-between center">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Edit address</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                    <md-icon class="material-icons">close</md-icon>
+                </md-button>
+            </div>
+            <md-divider></md-divider>
+        </div>
+        <md-dialog-content>
+            <!-- Address Line 1 -->
+            <md-input-container class="md-block">
+                <label>Address</label>
+                <input class="md-primary" ng-model="dialogFormData.address1" ng-maxlength="100" type="text" name="address1" required />
+                <div ng-if="businessForm.$submitted" ng-messages="businessForm.address1.$error">
+                    <div ng-message="required">Address required.</div>
+                    <div ng-message="maxlength">Address must be between 1 and 100 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- Address Line 2 -->
+            <md-input-container class="md-block">
+                <label>Address Line 2</label>
+                <input class="md-primary" ng-model="dialogFormData.address2" ng-maxlength="100" type="text" name="address2" />
+                <div ng-if="businessForm.$submitted" ng-messages="businessForm.address2.$error">
+                    <div ng-message="maxlength">Address line 2 cannot contain more than 100 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- City -->
+            <md-input-container class="md-block">
+                <label>City</label>
+                <input class="md-primary" ng-model="dialogFormData.city" ng-maxlength="50" type="text" autocomplete="off" name="city" required />
+                <div ng-if="businessForm.$submitted" ng-messages="businessForm.city.$error">
+                    <div ng-message="required">City name is required.</div>
+                    <div ng-message="maxlength">City Name must be between 1 and 50 characters.</div>
+                </div>
+            </md-input-container>
+            <!-- State -->
+            <md-input-container class="md-block">
+                <label>State</label>
+                <md-select name="regionId" ng-model="dialogFormData.regionId" required>
+                    <md-option ng-repeat="state in states" value="{{state.name}}">{{state.name}}</md-option>
+                </md-select>
+                <div class="errors" ng-if="businessForm.$submitted" ng-messages="businessForm.regionId.$error">
+                    <div ng-message="required">State selection is required.</div>
+                </div>
+            </md-input-container>
+            <!-- Zip / Postal Code-->
+            <md-input-container class="md-block">
+                <label>Zip/Postal Code</label>
+                <input class="md-primary" ng-model="dialogFormData.postalCode" ng-maxlength="12" type="text" name="postalCode" required />
+                <div ng-if="businessForm.$submitted" ng-messages="businessForm.postalCode.$error">
+                    <div ng-message="required">Postal code is required.</div>
+                    <div ng-message="minlength, maxlength">First Name must be between 5 and 12 characters.</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button class="md-primary md-raised" type="submit">
+                Update
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

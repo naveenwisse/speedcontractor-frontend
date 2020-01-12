@@ -1,0 +1,36 @@
+<div class="pp-margin pp-padding" layout="row" layout-align="space-between center">
+    <md-button class="md-primary pp-margin-none" ui-sref="profile.main">
+        <i class="material-icons back">keyboard_arrow_left</i> Back
+    </md-button>
+    <span class="md-display-0">Events & Jobs</span>
+</div>
+<md-card ng-if="coordCtrl.massHire.length">
+    <span style="margin-left: 3%; margin-right: 3%;" class="md-display-1">Address: {{coordCtrl.location}}</span>
+    <md-card-content class="profile-business-card">
+        <md-list>
+            <md-list-item class="pp-margin-none" ng-repeat="elem in coordCtrl.massHire track by elem[0]._id">
+                <div class="pp-multi-line pp-padding pp-width-full">
+                    <b class="hover-pointer" data-ng-click="coordCtrl.goToProfile(elem[0].business)">{{ elem[0].business.companyName }}</b> - {{elem[0].title}}<br>
+                    <p>
+                        From {{elem[0].startTime | date : 'MMM d, y h:mm a'}}, to {{elem[0].endTime | date : 'MMM d, y h:mm a'}}<br>
+                        Schedule: {{elem[0].startTime | date : 'h:mm a'}}-{{elem[0].endTime | date : 'h:mm a'}}
+                    </p>
+                    <p>
+                        Positions availables: {{elem.length}}
+                    </p>
+                </div>
+                <md-button data-ng-if="!coordCtrl.requestSent(elem)" data-ng-disabled="coordCtrl.disableButton" class="md-primary" ng-click="coordCtrl.requestJobInvitation(elem[0]._id)">
+                    Apply
+                </md-button>
+                <md-button data-ng-if="coordCtrl.requestSent(elem)" data-ng-disabled="true" class="md-primary">
+                    Applied
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>
+<md-card ng-if="!coordCtrl.massHire.length">
+    <md-card-content>
+        <span class="md-subhead">No jobs to show.</span>
+    </md-card-content>
+</md-card>

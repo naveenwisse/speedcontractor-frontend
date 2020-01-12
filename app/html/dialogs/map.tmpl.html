@@ -1,0 +1,48 @@
+<md-dialog class="pp-dialog" aria-label="Map">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Map</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <!-- Skill Type-->
+        <ng-map style="height: 350px; width: 600px" center="[41.850033, -87.6500523]" zoom="3">
+            <info-window id="myInfoWindow">
+                <div ng-non-bindable>
+                    <div style="display:inline-flex;">
+                        <h4>Available Jobs &nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                        <md-button data-ng-click="onClickMarker(event, selectedGroup)">Apply</md-button>
+                    </div>
+                    <div style="display:block;">
+
+                        {{info.address}}
+                        <ul>
+                            <li data-ng-repeat="i in info.titles">{{i.title}}: {{i.count}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </info-window>
+            <marker
+                data-ng-repeat="group in groups"
+                position="{{group.coordinates[1]}}, {{group.coordinates[0]}}"
+                title=" {{group.companyName}} &#013;&#010; {{group.companyName}} &#013;&#010; {{positions}} number of open positions "
+                on-click="showCity(event, group)"
+                optimized="false"
+                icon="i/blue-marker-48.png"
+            >
+            </marker>
+        </ng-map>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="cancel()">Close</md-button>
+    </md-dialog-actions>
+
+</md-dialog>

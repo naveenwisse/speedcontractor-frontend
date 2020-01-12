@@ -1,0 +1,40 @@
+<p class="md-subhead">
+    Saved payment methods
+</p>
+<table class="pp-table" ng-if="$ctrl.account.paymentMethod">
+    <thead>
+        <tr>
+            <th>Provider</th>
+            <th>Last 4</th>
+            <th colspan="2">Expiration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{$ctrl.account.paymentMethod.brand}}</td>
+            <td>{{$ctrl.account.paymentMethod.last4}}</td>
+            <td>{{$ctrl.account.paymentMethod.exp_month}} /
+            {{$ctrl.account.paymentMethod.exp_year}}</td>
+            <td class="pp-table__actions">
+                <md-button class="md-icon-button">
+                    <md-icon
+                        class="material-icons md-warn"
+                        ng-click="$ctrl.removePaymentMethod($event)"
+                        >
+                        delete
+                    </md-icon>
+                </md-button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div ng-if="!$ctrl.account.paymentMethod">
+    <p>
+        Looks like you don't have a payment method on file. We require a payment method
+        for subscription services as well as paying users for shifts. Click the button
+        below to add a new payment method.
+    </p>
+    <a class="stripe-connect" ng-click="$ctrl.showAddPaymentMethodModal()">
+        <span>Add payment method</span>
+    </a>
+</div>

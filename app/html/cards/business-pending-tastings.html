@@ -1,0 +1,23 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle md-warn">Pending tastings</span>
+        <span class="pp-badge dark round">{{user.pendingTastings.length}}</span>
+    </div>
+    <md-divider ng-if="user.pendingTastings.length"></md-divider>
+</div>
+<md-card-content class="profile-business-card" ng-if="user.pendingTastings.length">
+    <md-list ng-cloak>
+        <md-list-item class="pp-margin-none" ng-click="acceptTasting($event, tasting)" ng-repeat="tasting in user.pendingTastings track by $index">
+            <img class="profile-businesses-thumb" ng-src="{{ tasting.business.image }}">
+            <div class="pp-multi-line pp-width-full pp-padding">
+                <span class="pp-primary pp-bold">{{ tasting.title }}</span> - <small>{{tasting.business.companyName}}</small>
+                <br>
+                <small>Start: {{tasting.startTime | date : 'MMM d, y h:mm a'}}</small>
+                <br>
+                <small>End: {{tasting.endTime | date : 'MMM d, y h:mm a'}}</small>
+                <br>
+                <small>{{tasting.formattedAddress}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

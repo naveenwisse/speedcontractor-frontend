@@ -1,0 +1,19 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle">Your Jobs</span>
+        <span class="pp-badge dark round">{{user.jobs.length}}</span>
+    </div>
+    <md-divider></md-divider> 
+</div>
+<md-card-content class="profile-business-card">
+    <md-list>
+        <md-list-item ng-repeat="job in user.jobs track by $index">
+            <div class="pp-multi-line pp-padding-y">
+                <small class="pp-bold">{{job.business.companyName}} - {{job.title}} | {{getTime(job.endTime) >= now ? "Upcoming" : "Completed"}}</small> <br>
+                <small>Start: {{job.startTime | date : 'MMM d, y h:mm a'}}</small> <br>
+                <small>End: {{job.endTime | date : 'MMM d, y h:mm a'}}</small> <br>
+                <small>{{job.formattedAddress}}</small>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

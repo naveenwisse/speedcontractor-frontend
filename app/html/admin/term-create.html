@@ -1,0 +1,13 @@
+<pp-menu-admin></pp-menu-admin>
+<div flex="50" flex-offset="25" style="text-align:center">
+	<h3>New Term</h3>
+	<input type="text" data-ng-model="admin.term.term" style="width: 60%"/><br>
+	<label for="selectCategory"> Category: </label><br>
+	<div style="margin-left: 40%">
+	  <md-select name="selectCategory" ng-model="admin.term.category" style="width: 40%">
+	    <md-option value="Universal">Universal</md-option>
+	    <md-option value="Technical">Technical</md-option>
+	  </md-select><br>
+	</div>
+	<md-button data-ng-click="admin.save()">Save</md-button>
+</div>

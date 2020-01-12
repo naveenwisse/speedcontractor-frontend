@@ -1,0 +1,21 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <div>
+            <span class="md-subtitle" ng-class="{'md-warn': !user.mobilePhone}">Phone</span>
+        </div>
+        <md-button ng-if="isUser" class="md-primary card-action-button" ng-click="editPhoneDialog($event)" aria-label="Edit">
+            <span>Edit</span>
+        </md-button>
+    </div>
+    <md-divider></md-divider>
+</div>
+<md-card-content class="profile-list-card">
+    <div ng-if="!user.mobilePhone" class="md-warn text-center pp-padding text-small"></div>
+    <md-list ng-if="user.mobilePhone">
+        <md-list-item>
+            <div flex class="pp-multi-line pp-width-full">
+                <div>{{ user.mobilePhone }}</div>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-card-content>

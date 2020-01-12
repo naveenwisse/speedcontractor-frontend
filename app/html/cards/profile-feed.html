@@ -1,0 +1,84 @@
+<div ng-if="item.modelType === 'RESOURCE'">
+    <md-card-header>
+        <md-card-avatar>
+            <img class="feed-avatar md-user-avatar" ng-src="{{item.business.image}}" />
+        </md-card-avatar>
+        <md-card-header-text>
+            <a class="pp-link" ng-href="{{ item.business.slug }}">{{item.business.companyName}}</a>
+            <span class="md-subhead">{{ item.startTime | date : 'MMM d, y h:mm a'}} - {{ item.endTime | date : 'MMM d, y h:mm a'}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <span class="md-headline">{{item.title}}</span><br>
+        <span class="md-subhead">{{ item.formattedAddress }}{{item.event.title}}</span><br>
+        <span ng-if="item.event">
+            <strong>Event Title:&nbsp;&nbsp;</strong><strong class="md-title-event"> {{item.event.title}}</strong>
+            <br><strong>Event Description:&nbsp;&nbsp;</strong> {{item.event.description}}
+        </span>
+        <p>
+            <strong ng-if="item.count">Quantity:{{' '}}</strong> {{ item.count }}
+            <br><strong ng-if="item.unfilled">Vacant:{{' '}}</strong> {{ item.vacants }}
+            <br><strong>Compensation:{{' '}}</strong> {{ item.compensation | currency:"$":2 }}
+            <br><strong>Attire:{{' '}}</strong> {{ item.attire }}
+            <br><strong>Business Provided Attire:{{' '}}</strong> {{ item.busAttire }}
+            <br><strong>Additional Info:{{' '}}</strong> {{ item.additional }}
+            <br><strong>Location:{{' '}}</strong>
+            <br>{{ item.formattedAddress }}
+        </p>
+        <div ng-if="!hasConflict(item) && !isInside(item) " layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="businessReviews($event, item)">
+                Business Reviews
+            </md-button>
+            <md-button ng-click="applyJob(item)" class="md-primary md-raised">Apply</md-button>
+        </div>
+        <div ng-if="isInside(item)">
+            You participate in this event as {{item.title}}
+        </div>
+        <div ng-if="hasConflict(item) && !isInside(item)">
+            You can't participate in this event because you already have a previous job.
+        </div>
+    </md-card-content>
+</div>
+<div ng-if="item.modelType === 'TASTING'">
+    <md-card-header>
+        <md-card-avatar>
+            <img class="feed-avatar md-user-avatar" ng-src="{{item.business.image}}" />
+        </md-card-avatar>
+        <md-card-header-text>
+            <a class="pp-link" ng-href="{{ item.business.slug }}">{{item.business.companyName}}</a>
+            <span class="md-subhead">{{ item.startTime | date : 'MMM d, y h:mm a'}} - {{ item.endTime | date : 'MMM d, y h:mm a'}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">{{item.title}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <p>{{item.description}}</p>
+        <span class="pp-bold">Venue:</span>
+        <md-card-header>
+            <md-card-avatar>
+                <img class="feed-avatar md-user-avatar" ng-src="{{item.businessVenue.image}}" />
+            </md-card-avatar>
+            <md-card-header-text>
+                <a class="pp-link" ng-href="{{ item.businessVenue.slug }}">{{item.businessVenue.companyName}}</a>
+                <span class="md-subhead">{{ item.businessVenue.formattedAddress}}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <div class="carousel" ng-if="item.images.length">
+            <ul class="carousel-list" rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered rn-carousel-controls>
+                <li class="upload-preview" ng-repeat="image in item.images">
+                    <img class="thumb" ng-src="{{image.path}}" alt="{{image.caption}}">
+                    <p class="pp-bold">{{image.caption || '&nbsp;'}}</p>
+                </li>
+            </ul>
+            <div ng-if="item.images.length > 1" rn-carousel-indicators slides="item.images" rn-carousel-index="carouselIndex"></div>
+        </div>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end">
+        <md-button ng-click="attend($event,item)" class="md-primary md-raised">Attend</md-button>
+    </md-card-actions>
+</div>

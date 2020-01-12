@@ -1,0 +1,19 @@
+<div class="pp-card-toolbar">
+    <div class="pp-card-tools" layout="row" layout-align="space-between center">
+        <span class="md-subtitle md-warn">Pending users</span>
+        <span class="pp-badge dark round">{{user.pendingFilledResources.length}}</span>
+    </div>
+    <md-divider ng-if="user.pendingFilledResources.length"></md-divider>
+</div>
+<md-card-content class="profile-business-card" ng-if="user.pendingFilledResources.length">
+    <div>
+        <md-list ng-cloak>
+            <md-list-item class="pp-margin-none" ng-repeat="resource in user.pendingFilledResources track by $index">
+                <img class="profile-businesses-thumb" ng-src="{{ resource.filled.image }}">
+                <div class="pp-multi-line pp-width-full pp-padding">
+                    <div class="pp-primary pp-bold">{{ resource.filled.name }}</div>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-card-content>

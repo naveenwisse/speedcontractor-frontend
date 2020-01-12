@@ -1,0 +1,32 @@
+<div class="age-mask" ng-if="showAgeModal">
+    <div class="age-modal">
+        <span class="md-headline" layout-padding>Verify Age</span>
+        <form id="ageForm" class="age-form" ng-submit="submit(ageForm)" name="ageForm" novalidate>
+            <md-input-container class="md-block">
+                <md-select ng-model="formData.month" placeholder="Month" aria-label="Month" name="month" required>
+                    <md-option ng-repeat="month in months" ng-value="month.value">{{month.name}}</md-option>
+                </md-select>
+                <div ng-if="(ageForm.month.$dirty && ageForm.month.$invalid) || ageForm.$submitted" ng-messages="ageForm.month.$error">
+                    <div ng-message="required">Month selection is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <md-select ng-model="formData.date" placeholder="Date" aria-label="Date" name="date" required>
+                    <md-option ng-repeat="date in dates" ng-value="date">{{date}}</md-option>
+                </md-select>
+                <div ng-if="(ageForm.date.$dirty && ageForm.date.$invalid) || ageForm.$submitted" ng-messages="ageForm.date.$error">
+                    <div ng-message="required">Date selection is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <md-select ng-model="formData.year" placeholder="Year" aria-label="Year" name="year" required>
+                    <md-option ng-repeat="year in years" ng-value="year">{{year}}</md-option>
+                </md-select>
+                <div ng-if="(ageForm.year.$dirty && ageForm.year.$invalid) || ageForm.$submitted" ng-messages="ageForm.year.$error">
+                    <div ng-message="required">Year selection is required.</div>
+                </div>
+            </md-input-container>
+            <md-button class="md-primary md-raised" type="submit">Submit</md-button>
+        </form>
+    </div>
+</div>

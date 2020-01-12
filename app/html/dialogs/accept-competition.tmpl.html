@@ -1,0 +1,49 @@
+<md-dialog class="pp-dialog" aria-label="{{competition.title}}">
+    <div class="pp-card-toolbar">
+        <div class="pp-card-tools" layout="row" layout-align="space-between center">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">{{competition.title}}</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-button ng-click="cancel()" class="md-icon-button md-secondary pp-card-close">
+                <md-icon class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+        <md-divider></md-divider>
+    </div>
+    <md-dialog-content>
+        <md-list>
+            <md-list-item class="md-3-line md-long-text">
+                <img ng-src="{{competition.business.image}}" class="md-avatar" alt="{{competition.business.companyName}}" />
+                <div class="md-list-item-text" layout="column">
+                    <h3><a class="pp-link" ng-href="{{ competition.business.slug }}" ng-click="cancel()">{{ competition.business.companyName }}</a></h3>
+                    <p><strong>From:</strong> {{ competition.startsAt | date : 'medium'}}</p>
+                    <p><strong>To:</strong> {{ competition.endsAt | date : 'medium'}}</p>
+                </div>
+            </md-list-item>
+        </md-list>
+        <div ng-if="conflictingCompetitions.length">
+            <md-divider></md-divider>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-subtitle">Conflicting Requests</span>
+                </md-card-header-text>
+            </md-card-header>
+            <md-list>
+                <md-list-item class="md-3-line md-long-text" ng-repeat="taste in conflictingCompetitions track by $index">
+                    <img class="profile-businesses-thumb" ng-src="{{ taste.business.image }}">
+                    <div class="pp-multi-line pp-width-full pp-padding">
+                        <div class="pp-primary pp-bold">{{ taste.title }}</div>
+                        <small>{{taste.business.companyName}}</small>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
+        <div layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button class="md-warn" ng-click="decline()">Decline</md-button>
+            <md-button class="md-primary md-raised" ng-click="accept()">Accept</md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>

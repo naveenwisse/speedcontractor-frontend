@@ -1,0 +1,10 @@
+.idea/
+.tmp/
+.env
+*.log
+*.*.orig
+node_modules
+app/lib
+dist/
+*.log
+*.*.orig

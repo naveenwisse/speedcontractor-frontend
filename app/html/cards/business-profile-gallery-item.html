@@ -1,0 +1,46 @@
+<div class="pp-card-toolbar">
+    <md-card ng-if="isUser">
+        <md-card-content>
+            <md-button
+                ng-click="showUploadModalGallery('gallery', 'gallery', gallery.businessId, 'img', tabsProfile.myCategory)"
+                class="md-primary card-action-button"
+                aria-label="Upload Photo"
+                >
+                <span>Add Image</span>
+            </md-button>
+            <md-button
+                ng-click="showUploadVideoModalGallery(gallery.businessId, 'video', tabsProfile.myCategory)"
+                class="md-primary card-action-button"
+                aria-label="Upload Video"
+                >
+                <span>Add Video</span>
+            </md-button>
+        </md-card-content>
+    </md-card>
+</div>
+<md-card-content class="profile-business-card">
+    <md-card ng-if="tabsProfile.categoryItemCount===0">
+        <p>You have no {{tabsProfile.categoryLabels[tabsProfile.myCategory]}}</p>
+    </md-card>
+    <md-card data-ng-repeat="photo in photoVideoGallery" ng-if="photo.category===tabsProfile.myCategory">
+        <img ng-if="photo.itemType === 'img'" ng-src="{{photo.source}}" class="md-card-image" alt="Gallery">
+        <video controls
+            ng-if="photo.itemType === 'video'" ng-src="{{photo.source}}" class="md-card-video" alt="Gallery">
+                Sorry, your browser doesn't support embedded videos
+        </video>
+        <h2>{{photo.title}}</h2>
+        <p>{{photo.comment}}</p>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-icon-button gallery-icon-button" aria-label="Download">
+            <a target="_blank" href="{{photo.source}}" download="image.jpg">
+                <md-icon class="material-icons">cloud_download</md-icon>
+            </a>
+            <md-tooltip>Download</md-tooltip>
+          </md-button>
+          <md-button ng-if="isUser" data-ng-click="gallery.removePhoto(photo)" class="md-icon-button gallery-icon-button" aria-label="Remove" tooltip>
+            <md-icon class="material-icons">delete</md-icon>
+            <md-tooltip>Remove</md-tooltip>
+          </md-button>
+        </md-card-actions>
+    </md-card>
+</md-card-content>

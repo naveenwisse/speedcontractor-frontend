@@ -1,0 +1,30 @@
+<div>
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{item.businessName + " - " + (item.created | date : 'MMM d, y h:mm a')}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <p>
+            <strong>Location:</strong>
+            <br>{{item.resources[0].formattedAddress}}
+        </p>
+        <ul>
+	        <li ng-repeat="group in item.resourcesGroups">
+	        	{{ group.title + ': ' + group.count + ' (' + group.vacants +' vacants)' }}
+	        </li>
+        </ul>
+        <p>
+            Invitations request: {{item.invitationsCount}}
+        </p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end" ng-if="isUser">
+        <md-button class="md-primary" ng-click="addPositions($event, item)">
+            Add Positions
+        </md-button>
+        <md-button class="md-primary" ng-click="selectMasshire(item)">
+            See Details
+        </md-button>
+    </md-card-actions>
+</div>
